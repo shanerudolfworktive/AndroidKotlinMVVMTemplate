@@ -23,7 +23,7 @@ abstract class SocialFeedsLocalDatabase : RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(MainApplication.appContext,
                         SocialFeedsLocalDatabase::class.java,
                         "SocialFeedsLocalDatabase.db")
-//                        .addCallback(callback)
+                        .addCallback(callback)
                         .fallbackToDestructiveMigration()
                         .build()
                 }
