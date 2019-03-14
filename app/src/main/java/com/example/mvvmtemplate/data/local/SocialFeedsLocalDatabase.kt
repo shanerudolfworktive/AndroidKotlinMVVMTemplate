@@ -1,14 +1,13 @@
-package com.example.data.local
+package com.example.mvvmtemplate.data.local
 
-import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.data.model.SocialFeedModel
-import com.example.data.model.UserModel
+import com.example.mvvmtemplate.data.model.SocialFeedModel
+import com.example.mvvmtemplate.data.model.UserModel
 import com.example.mvvmtemplate.MainApplication
-import com.example.util.AppExecutors
+import com.example.mvvmtemplate.util.AppExecutors
 
 @Database(entities = arrayOf(SocialFeedModel::class), version = 1)
 abstract class SocialFeedsLocalDatabase : RoomDatabase() {

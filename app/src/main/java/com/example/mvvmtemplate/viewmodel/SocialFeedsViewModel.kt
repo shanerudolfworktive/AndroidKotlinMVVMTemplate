@@ -1,7 +1,7 @@
-package com.example.viewmodel
+package com.example.mvvmtemplate.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.repository.SocialFeedRepository
+import com.example.mvvmtemplate.repository.SocialFeedRepository
 
 class SocialFeedsViewModel constructor(
     val repository: SocialFeedRepository = SocialFeedRepository.getInstance()

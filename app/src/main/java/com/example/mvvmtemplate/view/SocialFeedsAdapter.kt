@@ -1,11 +1,10 @@
-package com.example.view
+package com.example.mvvmtemplate.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.model.SocialFeedModel
+import com.example.mvvmtemplate.data.model.SocialFeedModel
 import com.example.mvvmtemplate.R
 import kotlinx.android.synthetic.main.social_feeds_card.view.*
 

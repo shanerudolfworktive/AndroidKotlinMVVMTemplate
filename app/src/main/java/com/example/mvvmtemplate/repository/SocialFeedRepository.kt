@@ -1,12 +1,7 @@
-package com.example.repository
+package com.example.mvvmtemplate.repository
 
-import androidx.lifecycle.LiveData
-import androidx.room.Room
-import com.example.data.local.SocialFeedsDao
-import com.example.data.local.SocialFeedsLocalDatabase
-import com.example.data.model.SocialFeedModel
-import com.example.mvvmtemplate.MainApplication
-import com.example.util.AppExecutors
+import com.example.mvvmtemplate.data.local.SocialFeedsLocalDatabase
+import com.example.mvvmtemplate.util.AppExecutors
 
 class SocialFeedRepository private constructor(
     private val appExecutors: AppExecutors = AppExecutors(),

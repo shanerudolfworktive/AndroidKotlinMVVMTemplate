@@ -1,4 +1,4 @@
-package com.example.data.model
+package com.example.mvvmtemplate.data.model
 
 import androidx.room.Embedded
 import androidx.room.Entity

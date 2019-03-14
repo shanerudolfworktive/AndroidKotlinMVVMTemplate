@@ -1,4 +1,4 @@
-package com.example.util
+package com.example.mvvmtemplate.util
 
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors

@@ -1,6 +1,6 @@
-package com.example.data.remote.apiService
+package com.example.mvvmtemplate.data.remote.apiService
 
-import com.example.data.model.SocialFeedModel
+import com.example.mvvmtemplate.data.model.SocialFeedModel
 import retrofit2.http.GET
 import io.reactivex.Observable;
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.example.util
+package com.example.mvvmtemplate.util
 
 import android.os.Handler
 import android.os.Looper
