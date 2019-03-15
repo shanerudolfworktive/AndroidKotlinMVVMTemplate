@@ -7,12 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSocialFeeds"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/socialFeedsRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/social_feeds_card" >
+            android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSocialFeeds"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/social_feeds_card">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
