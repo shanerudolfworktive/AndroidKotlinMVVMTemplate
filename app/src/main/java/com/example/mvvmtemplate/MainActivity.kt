@@ -1,6 +1,7 @@
 package com.example.mvvmtemplate
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmtemplate.repository.FetchState
 import com.example.mvvmtemplate.view.SocialFeedsAdapter
 import com.example.mvvmtemplate.viewmodel.SocialFeedsViewModel
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -29,11 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         socialFeedsViewModel = ViewModelProviders.of(this).get(SocialFeedsViewModel::class.java)
 
-        socialFeedsViewModel.socialFeeds.observe(this, Observer {
+        socialFeedsViewModel.socialfeedModels.observe(this, Observer {
             adapter.submitList(it)
         })
 
         socialFeedsViewModel.fetchFeedsState.observe(this, Observer {
+            Log.e("testing====", Gson().toJson(it))
             socialFeedsRefreshLayout.isRefreshing = it == FetchState.LOADING
         })
 

@@ -1,6 +1,7 @@
 package com.example.mvvmtemplate.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
 import com.example.mvvmtemplate.util.AppExecutors
@@ -13,12 +14,24 @@ class SocialFeedRepository private constructor(
     private val socialFeedsApiService: SocialFeedApiService = SocialFeedApiService.getInstance()
 ) {
     private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
-    var socialFeeds = socialFeedsDao.getSocialFeeds()
+    val socialfeedModels = socialFeedsDao.getSocialFeeds()
     val fetchFeedsState: MutableLiveData<FetchState> by lazy {
         MutableLiveData<FetchState>()
     }
 
-    fun fetchSocialFeeds() {
+    fun fetchSocialFeeds(force: Boolean = false) {
+        if (force) {
+            fetchSocialFeeds()
+        } else {
+            appExecutors.diskIO.execute {
+                if (socialFeedsDao.first() == null) {
+                    fetchSocialFeeds()
+                }
+            }
+        }
+    }
+
+    private fun fetchSocialFeeds(){
         appExecutors.mainThread.execute {
             fetchFeedsState.value = FetchState.LOADING
             socialFeedsApiService.fetchFeeds().observeOn(AndroidSchedulers.mainThread())
@@ -30,7 +43,20 @@ class SocialFeedRepository private constructor(
                     }
                 }, {
                     fetchFeedsState.value = FetchState.FAIL
+                    it.printStackTrace()
                 })
+        }
+    }
+
+    fun deleteSocialFeed(socialFeedModel: SocialFeedModel) {
+        appExecutors.diskIO.execute {
+            socialFeedsDao.deleteSocialFeeds(*arrayOf(socialFeedModel))
+        }
+    }
+
+    fun deleteAllSocialFeeds() {
+        appExecutors.diskIO.execute {
+            socialFeedsDao.deleteAllSocialFeeds()
         }
     }
 
