@@ -2,6 +2,8 @@ package com.example.mvvmtemplate
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -56,5 +58,21 @@ class MainActivity : AppCompatActivity() {
             }
         })
             .attachToRecyclerView(recyclerViewSocialFeeds)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.social_feeds_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.deleteAllFeeds -> {
+                socialFeedsViewModel.deleteAllSocialFeeds()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
