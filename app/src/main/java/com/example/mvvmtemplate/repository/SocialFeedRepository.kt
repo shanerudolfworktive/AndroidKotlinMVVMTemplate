@@ -1,6 +1,5 @@
 package com.example.mvvmtemplate.repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
@@ -21,7 +20,6 @@ class SocialFeedRepository private constructor(
 
     fun fetchSocialFeeds() {
         appExecutors.mainThread.execute {
-            Log.e("testing=====", "fetching")
             fetchFeedsState.value = FetchState.LOADING
             socialFeedsApiService.fetchFeeds().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -35,7 +33,6 @@ class SocialFeedRepository private constructor(
                 })
         }
     }
-
 
     companion object {
         private var INSTANCE: SocialFeedRepository? = null

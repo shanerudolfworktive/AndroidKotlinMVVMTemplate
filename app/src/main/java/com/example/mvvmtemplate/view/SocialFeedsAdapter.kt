@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.R
+import com.example.mvvmtemplate.model.SocialFeedModel
 import kotlinx.android.synthetic.main.social_feeds_card.view.*
 
 class SocialFeedsAdapter : ListAdapter<SocialFeedModel, SocialFeedViewHolder>(DiffCallback()) {
@@ -22,6 +22,10 @@ class SocialFeedsAdapter : ListAdapter<SocialFeedModel, SocialFeedViewHolder>(Di
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SocialFeedViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.social_feeds_card, parent, false)
         return SocialFeedViewHolder(view)
+    }
+
+    fun getSocialFeedModelAt(position: Int): SocialFeedModel {
+        return getItem(position)
     }
 }
 

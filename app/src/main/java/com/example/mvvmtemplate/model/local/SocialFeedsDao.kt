@@ -17,6 +17,9 @@ interface SocialFeedsDao {
     fun insertSocialFeed(socialFeed: SocialFeedModel)
 
     @Delete
+    fun deleteSocialFeed(socialFeed: SocialFeedModel)
+
+    @Delete
     fun deleteSocialFeeds(vararg socialFeeds: SocialFeedModel)
 
     @Delete

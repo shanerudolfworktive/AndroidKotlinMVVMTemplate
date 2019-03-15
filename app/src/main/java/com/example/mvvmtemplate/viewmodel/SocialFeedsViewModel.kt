@@ -1,6 +1,7 @@
 package com.example.mvvmtemplate.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.repository.SocialFeedRepository
 import com.example.mvvmtemplate.util.AppExecutors
@@ -23,6 +24,18 @@ class SocialFeedsViewModel constructor(
                     repository.fetchSocialFeeds()
                 }
             }
+        }
+    }
+
+    fun deleteSocialFeed(socialFeedModel: SocialFeedModel) {
+        appExecutors.diskIO.execute{
+            socialFeedsDao.deleteSocialFeeds(*arrayOf(socialFeedModel))
+        }
+    }
+
+    fun deleteAllSocialFeeds() {
+        appExecutors.diskIO.execute{
+            socialFeedsDao.deleteAllSocialFeeds()
         }
     }
 }
