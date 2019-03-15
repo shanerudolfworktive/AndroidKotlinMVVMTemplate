@@ -5,7 +5,6 @@ import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
 import com.example.mvvmtemplate.util.AppExecutors
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class SocialFeedRepository private constructor(
@@ -20,32 +19,21 @@ class SocialFeedRepository private constructor(
     }
 
     fun fetchSocialFeeds(force: Boolean = false) {
-        if (force) {
-            fetchSocialFeeds()
-        } else {
-            appExecutors.diskIO.execute {
-                if (socialFeedsDao.first() == null) {
-                    fetchSocialFeeds()
-                }
-            }
+        appExecutors.diskIO.execute {
+            if(force || socialFeedsDao.first() == null) fetchSocialFeeds()
         }
     }
 
     private fun fetchSocialFeeds(){
-        appExecutors.mainThread.execute {
-            fetchFeedsState.value = FetchState.LOADING
-            socialFeedsApiService.fetchFeeds().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fetchFeedsState.value = FetchState.SUCCESS
-                    AppExecutors().diskIO.execute {
-                        SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(it)
-                    }
-                }, {
-                    fetchFeedsState.value = FetchState.FAIL
-                    it.printStackTrace()
-                })
-        }
+        fetchFeedsState.postValue(FetchState.LOADING)
+        socialFeedsApiService.fetchFeeds().subscribeOn(Schedulers.io())
+            .subscribe({
+                fetchFeedsState.postValue(FetchState.SUCCESS)
+                SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(it)
+            }, {
+                fetchFeedsState.postValue(FetchState.FAIL)
+                it.printStackTrace()
+            })
     }
 
     fun deleteSocialFeed(socialFeedModel: SocialFeedModel) {
