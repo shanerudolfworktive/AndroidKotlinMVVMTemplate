@@ -12,14 +12,20 @@ interface SocialFeedApiService {
     @GET("/MassRelDemo/kindle.json")
     fun fetchFeeds(): Observable<List<SocialFeedModel>>
 
-    companion object Factory {
-        fun create(): SocialFeedApiService {
-            val retrofit = Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://api.massrelevance.com")
-                .build()
-            return retrofit.create(SocialFeedApiService::class.java)
+    companion object {
+        private var INSTANCE: SocialFeedApiService? = null
+        val lock = Any()
+
+        fun getInstance(): SocialFeedApiService {
+            synchronized(lock) {
+                val retrofit = Retrofit.Builder()
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl("http://api.massrelevance.com")
+                    .build()
+                INSTANCE = retrofit.create(SocialFeedApiService::class.java)
+            }
+            return INSTANCE!!
         }
     }
 

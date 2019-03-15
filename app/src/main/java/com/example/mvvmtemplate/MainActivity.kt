@@ -39,17 +39,23 @@ class MainActivity : AppCompatActivity() {
             adapter.submitList(it)
         })
 
-        SocialFeedApiService.create().fetchFeeds().observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                Log.d("MainActivity LOG", Gson().toJson(it))
-                AppExecutors().diskIO.execute{
-                    SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(it)
-                }
-            },{
-                Log.d("MainActivity LOG", "error")
-                it.printStackTrace();
-            })
+        socialFeedsViewModel.fetchFeedsState.observe(this, Observer {
+            Log.d("MainActivity LOG", "State====" + Gson().toJson(it))
+        })
+
+        socialFeedsViewModel.fetchSocialFeeds()
+
+//        SocialFeedApiService.getInstance().fetchFeeds().observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({
+//                Log.d("MainActivity LOG", Gson().toJson(it))
+//                AppExecutors().diskIO.execute{
+//                    SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(it)
+//                }
+//            },{
+//                Log.d("MainActivity LOG", "error")
+//                it.printStackTrace();
+//            })
 
     }
 }

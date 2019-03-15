@@ -24,4 +24,8 @@ interface SocialFeedsDao {
 
     @Query("delete from SocialFeedsTable")
     fun deleteAllSocialFeeds()
+
+    @Query("select count (*) from SocialFeedsTable")
+    fun count(): Int
+
 }
