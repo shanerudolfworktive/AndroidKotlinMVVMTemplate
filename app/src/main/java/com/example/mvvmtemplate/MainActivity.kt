@@ -7,9 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
+import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
+import com.example.mvvmtemplate.util.AppExecutors
 import com.example.mvvmtemplate.view.SocialFeedsAdapter
 import com.example.mvvmtemplate.viewmodel.SocialFeedsViewModel
 import com.google.gson.Gson
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +36,20 @@ class MainActivity : AppCompatActivity() {
 
         socialFeedsViewModel.socialFeeds.observe(this, Observer {
             Log.d("MainActivity LOG", "observed====" + Gson().toJson(it))
-            adapter.setSocialFeeds(it)
+            adapter.submitList(it)
         })
+
+        SocialFeedApiService.create().fetchFeeds().observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                Log.d("MainActivity LOG", Gson().toJson(it))
+                AppExecutors().diskIO.execute{
+                    SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(it)
+                }
+            },{
+                Log.d("MainActivity LOG", "error")
+                it.printStackTrace();
+            })
+
     }
 }

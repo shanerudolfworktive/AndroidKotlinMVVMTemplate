@@ -1,8 +1,8 @@
-package com.example.mvvmtemplate.data.local
+package com.example.mvvmtemplate.model.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.mvvmtemplate.data.model.SocialFeedModel
+import com.example.mvvmtemplate.model.SocialFeedModel
 
 @Dao
 interface SocialFeedsDao {

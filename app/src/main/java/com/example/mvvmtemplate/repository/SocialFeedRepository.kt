@@ -1,6 +1,6 @@
 package com.example.mvvmtemplate.repository
 
-import com.example.mvvmtemplate.data.local.SocialFeedsLocalDatabase
+import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.util.AppExecutors
 
 class SocialFeedRepository private constructor(
@@ -8,7 +8,7 @@ class SocialFeedRepository private constructor(
     private val socialFeedsDatabase: SocialFeedsLocalDatabase = SocialFeedsLocalDatabase.getInstance()
 ) {
     private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao();
-    public var socialFeeds = socialFeedsDao.getSocialFeeds()
+    var socialFeeds = socialFeedsDao.getSocialFeeds()
 
     fun fetchSocialFeeds() {
         appExecutors.diskIO.execute {
@@ -18,6 +18,8 @@ class SocialFeedRepository private constructor(
             }
         }
     }
+
+
 
     companion object {
         private var INSTANCE: SocialFeedRepository? = null
