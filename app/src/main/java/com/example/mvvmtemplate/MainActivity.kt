@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,6 +25,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(socialFeedsToolbar as Toolbar?)
+        socialFeedsToolbar.apply {
+//            inflateMenu(R.menu.social_feeds_menu)
+//            setOnMenuItemClickListener {
+//
+//            }
+        }
+
+
 
         recyclerViewSocialFeeds.layoutManager = LinearLayoutManager(this)
         recyclerViewSocialFeeds.setHasFixedSize(true)

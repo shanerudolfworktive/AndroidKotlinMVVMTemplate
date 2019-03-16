@@ -1,11 +1,11 @@
 package com.example.mvvmtemplate.model.remote.apiService
 
 import com.example.mvvmtemplate.model.SocialFeedModel
-import retrofit2.http.GET
-import io.reactivex.Observable;
+import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 
 interface SocialFeedApiService {
 
@@ -14,7 +14,7 @@ interface SocialFeedApiService {
 
     companion object {
         private var INSTANCE: SocialFeedApiService? = null
-        val lock = Any()
+        private val lock = Any()
 
         fun getInstance(): SocialFeedApiService {
             synchronized(lock) {

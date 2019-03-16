@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.mvvmtemplate.model.SocialFeedModel
 
+
 @Dao
 interface SocialFeedsDao {
 
-    @Query("select * from SocialFeedsTable")
+    @Query("select * from SocialFeedsTable order by id ASC")
     fun getSocialFeeds(): LiveData<List<SocialFeedModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
