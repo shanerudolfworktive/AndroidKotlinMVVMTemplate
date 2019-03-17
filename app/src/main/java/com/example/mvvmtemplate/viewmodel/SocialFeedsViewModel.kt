@@ -6,7 +6,7 @@ import com.example.mvvmtemplate.repository.SocialFeedRepository
 
 class SocialFeedsViewModel constructor(
     private val repository: SocialFeedRepository = SocialFeedRepository.getInstance()
-    ) : ViewModel() {
+    ) : BaseViewModel() {
     var fetchFeedsState = repository.fetchFeedsState
     var socialfeedModels = repository.socialfeedModels
 

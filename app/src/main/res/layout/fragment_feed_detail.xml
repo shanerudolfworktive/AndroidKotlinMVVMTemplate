@@ -3,7 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context=".FeedDetailFragment"
+              tools:context=".view.FeedDetailFragment"
               android:orientation="vertical">
 
     <include
@@ -11,7 +11,7 @@
             layout="@layout/toolbar"/>
 
     <EditText
-            android:id="@+id/titleEditText"
+            android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Title"

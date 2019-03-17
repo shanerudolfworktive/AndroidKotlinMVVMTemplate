@@ -1,4 +1,4 @@
-package com.example.mvvmtemplate
+package com.example.mvvmtemplate.view
 
 
 import android.os.Bundle
@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmtemplate.repository.FetchState
-import com.example.mvvmtemplate.view.SocialFeedsAdapter
 import com.example.mvvmtemplate.viewmodel.SocialFeedsViewModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_social_feeds.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
+import com.example.mvvmtemplate.R
 
 
 // TODO: Rename parameter arguments, choose names that match

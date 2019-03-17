@@ -1,15 +1,22 @@
-package com.example.mvvmtemplate
+package com.example.mvvmtemplate.view
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.example.mvvmtemplate.view.BaseFragment
+import com.example.mvvmtemplate.R
+import com.example.mvvmtemplate.model.SocialFeedModel
+import com.example.mvvmtemplate.model.UserModel
+import com.example.mvvmtemplate.util.ViewUtils
+import com.example.mvvmtemplate.viewmodel.FeedDetailViewModel
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
-import kotlinx.android.synthetic.main.fragment_social_feeds.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,6 +29,13 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class FeedDetailFragment : BaseFragment() {
+
+    lateinit var viewModel: FeedDetailViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(activity!!).get(FeedDetailViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_feed_detail, container, false)
@@ -50,9 +64,21 @@ class FeedDetailFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.saveFeed -> {
-                true
+                val name = nameEditText.text.toString();
+                val description = descriptionEditText.text.toString();
+                if (name.isBlank() || description.isBlank()) {
+                    Toast.makeText(activity, "please fill name and description", Toast.LENGTH_SHORT).show()
+                    return false
+                }
+                val userModel = UserModel(name=name, description=description)
+                viewModel.insertSocialFeed(SocialFeedModel(user = userModel))
+                ViewUtils.hideSoftKeyboard(activity!!, view!!)
+                findNavController().popBackStack()
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
 }

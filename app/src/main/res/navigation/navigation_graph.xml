@@ -13,14 +13,14 @@
                 app:destination="@id/socialFeedsFragment"/>
     </fragment>
     <fragment android:id="@+id/socialFeedsFragment"
-              android:name="com.example.mvvmtemplate.SocialFeedsFragment"
+              android:name="com.example.mvvmtemplate.view.SocialFeedsFragment"
               android:label="fragment_social_feeds"
               tools:layout="@layout/fragment_social_feeds">
         <action android:id="@+id/action_socialFeedsFragment_to_feedDetailFragment"
                 app:destination="@id/feedDetailFragment"/>
     </fragment>
     <fragment android:id="@+id/feedDetailFragment"
-              android:name="com.example.mvvmtemplate.FeedDetailFragment"
+              android:name="com.example.mvvmtemplate.view.FeedDetailFragment"
               android:label="fragment_feed_detail"
               tools:layout="@layout/fragment_feed_detail"/>
 </navigation>
