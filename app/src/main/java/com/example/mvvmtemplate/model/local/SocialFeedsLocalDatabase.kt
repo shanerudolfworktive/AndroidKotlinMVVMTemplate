@@ -11,19 +11,16 @@ abstract class SocialFeedsLocalDatabase : RoomDatabase() {
     abstract fun socialFeedsDao(): SocialFeedsDao
 
     companion object {
-        private var INSTANCE: SocialFeedsLocalDatabase? = null
-        private val lock = Any()
+        @Volatile private var INSTANCE: SocialFeedsLocalDatabase? = null
         fun getInstance(): SocialFeedsLocalDatabase{
-            synchronized(lock) {
-                if(INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(MainApplication.appContext,
-                        SocialFeedsLocalDatabase::class.java,
-                        "SocialFeedsLocalDatabase.db")
-                        .fallbackToDestructiveMigration()
-                        .build()
-                }
-                return INSTANCE!!
+            return INSTANCE?: synchronized(this){
+                return INSTANCE?: Room.databaseBuilder(MainApplication.appContext,
+                    SocialFeedsLocalDatabase::class.java,
+                    "SocialFeedsLocalDatabase.db")
+                    .fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
+
         }
     }
 
