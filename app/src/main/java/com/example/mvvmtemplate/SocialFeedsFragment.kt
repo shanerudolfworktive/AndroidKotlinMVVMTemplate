@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_social_feeds.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.fragment.findNavController
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,12 +47,12 @@ class SocialFeedsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(socialFeedsToolbar as Toolbar?)
         setHasOptionsMenu(true)
-        socialFeedsToolbar.apply {
+//        socialFeedsToolbar.apply {
 //            inflateMenu(R.menu.social_feeds_menu)
 //            setOnMenuItemClickListener {
 //
 //            }
-        }
+//        }
 
         recyclerViewSocialFeeds.layoutManager = LinearLayoutManager(activity)
         recyclerViewSocialFeeds.setHasFixedSize(true)
@@ -84,6 +85,11 @@ class SocialFeedsFragment : Fragment() {
             }
         })
             .attachToRecyclerView(recyclerViewSocialFeeds)
+
+
+        addFeedFab.setOnClickListener{
+            findNavController().navigate(R.id.feedDetailFragment)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
