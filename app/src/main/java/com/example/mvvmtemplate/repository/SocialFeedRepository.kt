@@ -5,6 +5,7 @@ import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
 import com.example.mvvmtemplate.util.AppExecutors
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class SocialFeedRepository private constructor(
@@ -26,14 +27,20 @@ class SocialFeedRepository private constructor(
 
     private fun fetchSocialFeeds(){
         fetchFeedsState.postValue(FetchState.LOADING)
-        socialFeedsApiService.fetchFeeds().subscribeOn(Schedulers.io())
+        socialFeedsApiService.fetchFeeds().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 fetchFeedsState.postValue(FetchState.SUCCESS)
-                SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(it)
+                insertSocialFeeds(it)
             }, {
                 fetchFeedsState.postValue(FetchState.FAIL)
                 it.printStackTrace()
             })
+    }
+
+    private fun insertSocialFeeds(socialFeeds: List<SocialFeedModel>) {
+        appExecutors.diskIO.execute {
+            SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(socialFeeds)
+        }
     }
 
     fun deleteSocialFeed(socialFeedModel: SocialFeedModel) {

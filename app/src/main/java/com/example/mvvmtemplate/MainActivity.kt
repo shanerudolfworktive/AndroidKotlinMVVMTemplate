@@ -18,71 +18,8 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var socialFeedsViewModel: SocialFeedsViewModel
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(socialFeedsToolbar as Toolbar?)
-        socialFeedsToolbar.apply {
-//            inflateMenu(R.menu.social_feeds_menu)
-//            setOnMenuItemClickListener {
-//
-//            }
-        }
-
-
-
-        recyclerViewSocialFeeds.layoutManager = LinearLayoutManager(this)
-        recyclerViewSocialFeeds.setHasFixedSize(true)
-
-        val adapter = SocialFeedsAdapter()
-        recyclerViewSocialFeeds.adapter = adapter
-
-        socialFeedsViewModel = ViewModelProviders.of(this).get(SocialFeedsViewModel::class.java)
-
-        socialFeedsViewModel.socialfeedModels.observe(this, Observer {
-            adapter.submitList(it)
-        })
-
-        socialFeedsViewModel.fetchFeedsState.observe(this, Observer {
-            Log.e("testing====", Gson().toJson(it))
-            socialFeedsRefreshLayout.isRefreshing = it == FetchState.LOADING
-        })
-
-        socialFeedsViewModel.fetchSocialFeeds()
-
-        socialFeedsRefreshLayout.setOnRefreshListener {
-            socialFeedsViewModel.fetchSocialFeeds(true)
-        }
-
-        ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                socialFeedsViewModel.deleteSocialFeed(adapter.getSocialFeedModelAt(viewHolder.adapterPosition))
-            }
-        })
-            .attachToRecyclerView(recyclerViewSocialFeeds)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.social_feeds_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.deleteAllFeeds -> {
-                socialFeedsViewModel.deleteAllSocialFeeds()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

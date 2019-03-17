@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: "kotlin-kapt"
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -29,9 +31,13 @@ dependencies {
     def lifecycleVersion = "2.0.0"
     def roomVersion = "2.1.0-alpha05"
     def appcompatVersion = "1.1.0-alpha03"
+    def navVersion = "2.0.0"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -44,6 +50,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "android.arch.persistence.room:rxjava2:$roomVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
     kapt "android.arch.persistence.room:compiler:$roomVersion"
     testImplementation "androidx.room:room-testing:$roomVersion"
 
