@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".view.FeedDetailFragment"
-              android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
 
-    <include
-            android:id="@+id/feedDetailToolbar"
-            layout="@layout/toolbar"/>
+        <variable
+                name="viewModel"
+                type="com.example.mvvmtemplate.viewmodel.FeedDetailViewModel" />
+    </data>
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  tools:context=".view.FeedDetailFragment"
+                  android:orientation="vertical">
 
-    <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Title"
-            android:inputType="text"
-            android:layout_margin="16dp"/>
+        <include
+                android:id="@+id/feedDetailToolbar"
+                layout="@layout/toolbar"/>
 
-    <EditText android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_margin="16dp"
-              android:hint="Description"
-              android:id="@+id/descriptionEditText"/>
+        <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="name"
+                android:text="@={viewModel.name}"
+                android:inputType="text"
+                android:layout_margin="16dp"/>
 
-</LinearLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="16dp"
+                  android:hint="description"
+                  android:text="@={viewModel.description}"
+                  android:id="@+id/descriptionEditText"/>
+
+    </LinearLayout>
+</layout>

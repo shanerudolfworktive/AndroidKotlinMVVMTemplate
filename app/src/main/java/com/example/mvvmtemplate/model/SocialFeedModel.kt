@@ -17,6 +17,6 @@ data class SocialFeedModel @JvmOverloads constructor(
 
 data class UserModel @JvmOverloads constructor(
     val id: Long? = 1,
-    val name: String?,
-    val description: String?
+    var name: String?,
+    var description: String?
     )

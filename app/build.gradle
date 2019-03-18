@@ -10,6 +10,9 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 28
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.example.mvvmtemplate"
         minSdkVersion 20
@@ -50,7 +53,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "android.arch.persistence.room:rxjava2:$roomVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "android.arch.persistence.room:compiler:$roomVersion"
     testImplementation "androidx.room:room-testing:$roomVersion"
 

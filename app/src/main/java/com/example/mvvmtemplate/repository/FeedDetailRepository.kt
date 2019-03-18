@@ -1,7 +1,5 @@
 package com.example.mvvmtemplate.repository
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.util.AppExecutors

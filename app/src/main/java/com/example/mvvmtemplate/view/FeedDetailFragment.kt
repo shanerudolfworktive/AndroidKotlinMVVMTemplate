@@ -8,10 +8,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.mvvmtemplate.R
+import com.example.mvvmtemplate.databinding.FragmentFeedDetailBinding
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.UserModel
 import com.example.mvvmtemplate.util.ViewUtils
@@ -38,7 +40,10 @@ class FeedDetailFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_feed_detail, container, false)
+        val binding = DataBindingUtil.inflate<FragmentFeedDetailBinding>(inflater, R.layout.fragment_feed_detail, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this@FeedDetailFragment
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,14 +69,11 @@ class FeedDetailFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.saveFeed -> {
-                val name = nameEditText.text.toString();
-                val description = descriptionEditText.text.toString();
-                if (name.isBlank() || description.isBlank()) {
+                if (viewModel.name.value!!.isBlank() || viewModel.description.value!!.isBlank()) {
                     Toast.makeText(activity, "please fill name and description", Toast.LENGTH_SHORT).show()
                     return false
                 }
-                val userModel = UserModel(name=name, description=description)
-                viewModel.insertSocialFeed(SocialFeedModel(user = userModel))
+                viewModel.insertSocialFeed()
                 ViewUtils.hideSoftKeyboard(activity!!, view!!)
                 findNavController().popBackStack()
                 return true

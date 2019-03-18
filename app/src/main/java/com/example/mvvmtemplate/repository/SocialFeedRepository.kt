@@ -14,7 +14,8 @@ class SocialFeedRepository private constructor(
     private val socialFeedsApiService: SocialFeedApiService = SocialFeedApiService.getInstance()
 ) {
     private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
-    val socialfeedModels = socialFeedsDao.getSocialFeeds()
+    val socialFeedModels get() = socialFeedsDao.getSocialFeeds()
+
     val fetchFeedsState: MutableLiveData<FetchState> by lazy {
         MutableLiveData<FetchState>()
     }

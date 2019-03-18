@@ -1,6 +1,5 @@
 package com.example.mvvmtemplate.viewmodel
 
-import androidx.lifecycle.ViewModel
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.repository.SocialFeedRepository
 
@@ -8,7 +7,7 @@ class SocialFeedsViewModel constructor(
     private val repository: SocialFeedRepository = SocialFeedRepository.getInstance()
     ) : BaseViewModel() {
     var fetchFeedsState = repository.fetchFeedsState
-    var socialfeedModels = repository.socialfeedModels
+    var socialfeedModels = repository.socialFeedModels
 
     fun fetchSocialFeeds(force: Boolean = false) {
         repository.fetchSocialFeeds(force)
