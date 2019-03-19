@@ -15,7 +15,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.mvvmtemplate"
-        minSdkVersion 20
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,7 @@ dependencies {
     def roomVersion = "2.1.0-alpha05"
     def appcompatVersion = "1.1.0-alpha03"
     def navVersion = "2.0.0"
+    def workVersion = "1.0.0"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
@@ -56,6 +57,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "android.arch.persistence.room:compiler:$roomVersion"
     testImplementation "androidx.room:room-testing:$roomVersion"
+
+    //work manager
+    implementation "android.arch.work:work-runtime-ktx:$workVersion"
+    implementation "android.arch.work:work-rxjava2:$workVersion"
 
     //rxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'

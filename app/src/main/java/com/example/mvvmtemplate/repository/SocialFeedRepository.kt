@@ -21,6 +21,7 @@ class SocialFeedRepository private constructor(
     }
 
     fun fetchSocialFeeds(force: Boolean = false) {
+        if(fetchFeedsState.value == FetchState.LOADING) return
         appExecutors.diskIO.execute {
             if(force || socialFeedsDao.first() == null) fetchSocialFeeds()
         }

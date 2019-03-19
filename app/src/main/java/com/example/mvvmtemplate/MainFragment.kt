@@ -2,15 +2,19 @@ package com.example.mvvmtemplate
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.work.*
 import com.example.mvvmtemplate.view.BaseFragment
 import com.example.mvvmtemplate.viewmodel.SocialFeedsViewModel
+import com.example.mvvmtemplate.syncing.SocialFeedsWorker
+import java.util.concurrent.TimeUnit
+import androidx.work.OneTimeWorkRequest
+import com.example.mvvmtemplate.util.SyncingUtils
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,10 +27,28 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class MainFragment : BaseFragment() {
-    lateinit var socialFeedsViewModel: SocialFeedsViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        scheduleSync()
+    }
+
+    //sync data every day at 2am
+    fun scheduleSync() {
+        val workManager: WorkManager = WorkManager.getInstance()
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val oneTimeWork = OneTimeWorkRequest.Builder(SocialFeedsWorker::class.java)
+            .setConstraints(constraints)
+            .setInitialDelay(SyncingUtils.calculateDiffFromNow(2), TimeUnit.MICROSECONDS)
+            .build()
+        workManager.enqueue(oneTimeWork)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
