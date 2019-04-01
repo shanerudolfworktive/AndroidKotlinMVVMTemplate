@@ -25,9 +25,9 @@ class GitHubSearchRepository private constructor(
     private val queryLiveData = MutableLiveData<String>()
 
     private val pagingConfig = Config(
-        pageSize = 10,
-        prefetchDistance = 100,
-        enablePlaceholders = false
+        pageSize = 2,
+        prefetchDistance = 30
+//        enablePlaceholders = false
     )
 
     val gitHubRepoModels: LiveData<PagedList<GitHubRepoModel>> = Transformations.switchMap(queryLiveData){
@@ -40,7 +40,11 @@ class GitHubSearchRepository private constructor(
 
     fun gitHubSearch(query: String) {
         Log.d("GithubRepository", "New query: $query")
-        queryLiveData.postValue(query)
+        appExecutors.diskIO.execute {
+            gitHubSearchDatabase.gitHubSearchDao().deleteAllSearches()
+            queryLiveData.postValue(query)
+        }
+
     }
 
     companion object {

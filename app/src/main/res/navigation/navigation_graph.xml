@@ -30,7 +30,8 @@
               android:label="fragment_discover_tab"
               tools:layout="@layout/fragment_discover_tab">
         <action android:id="@+id/action_navigation_discover_to_gitHubSearchFragment"
-                app:destination="@id/gitHubSearchFragment"/>
+                app:destination="@id/gitHubSearchFragment"
+        />
     </fragment>
     <fragment android:id="@+id/navigation_home"
               android:name="com.example.mvvmtemplate.screens.HomeTabFragment"

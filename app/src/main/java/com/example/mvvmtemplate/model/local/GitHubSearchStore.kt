@@ -21,6 +21,9 @@ interface GitHubSearchDao {
 
     @Query("select * from GitHubRepoTable limit 1")
     fun first(): GitHubRepoModel
+
+    @Query("delete from GitHubRepoTable")
+    fun deleteAllSearches()
 }
 
 @Database(entities = [GitHubRepoModel::class], version = 1)

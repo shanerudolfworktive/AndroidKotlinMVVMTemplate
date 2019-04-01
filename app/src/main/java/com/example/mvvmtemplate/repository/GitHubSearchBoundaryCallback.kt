@@ -53,8 +53,9 @@ class GitHubSearchBoundaryCallback(
     private fun requestAndSaveData(query: String) {
         if (isRequestInProgress) return
 
-        gitHubApiService.searchRepos(query, 0, 50).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        gitHubApiService.searchRepos(query, lastRequestedPage, 50).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                Log.d("RepoBoundaryCallback", "search success with lastRequestedPage=" + lastRequestedPage)
                 appExecutors.diskIO.execute{
                     gitHubSearchDatabase.gitHubSearchDao().insert(it.items)
                 }
