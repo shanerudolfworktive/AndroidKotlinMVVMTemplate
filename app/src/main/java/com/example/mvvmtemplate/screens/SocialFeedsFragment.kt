@@ -1,4 +1,4 @@
-package com.example.mvvmtemplate.view
+package com.example.mvvmtemplate.screens
 
 
 import android.os.Bundle
@@ -81,7 +81,8 @@ class SocialFeedsFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                socialFeedsViewModel.deleteSocialFeed(adapter.getSocialFeedModelAt(viewHolder.adapterPosition))
+                val feedModel = adapter.getSocialFeedModelAt(viewHolder.adapterPosition)
+                if(feedModel != null) socialFeedsViewModel.deleteSocialFeed(feedModel)
             }
         })
             .attachToRecyclerView(recyclerViewSocialFeeds)

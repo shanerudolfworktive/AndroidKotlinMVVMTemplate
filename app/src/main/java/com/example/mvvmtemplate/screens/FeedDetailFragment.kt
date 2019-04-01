@@ -1,10 +1,8 @@
-package com.example.mvvmtemplate.view
+package com.example.mvvmtemplate.screens
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,8 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.mvvmtemplate.R
 import com.example.mvvmtemplate.databinding.FragmentFeedDetailBinding
-import com.example.mvvmtemplate.model.SocialFeedModel
-import com.example.mvvmtemplate.model.UserModel
 import com.example.mvvmtemplate.util.ViewUtils
 import com.example.mvvmtemplate.viewmodel.FeedDetailViewModel
 import kotlinx.android.synthetic.main.fragment_feed_detail.*

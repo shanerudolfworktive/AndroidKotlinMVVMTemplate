@@ -1,4 +1,4 @@
-package com.example.mvvmtemplate.view
+package com.example.mvvmtemplate.screens
 
 import androidx.fragment.app.Fragment
 

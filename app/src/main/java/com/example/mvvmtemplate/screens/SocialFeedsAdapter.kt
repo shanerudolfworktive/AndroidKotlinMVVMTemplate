@@ -1,8 +1,9 @@
-package com.example.mvvmtemplate.view
+package com.example.mvvmtemplate.screens
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +15,16 @@ class SocialFeedsAdapter : ListAdapter<SocialFeedModel, SocialFeedViewHolder>(Di
 
     override fun onBindViewHolder(holder: SocialFeedViewHolder, position: Int) {
         val socialFeedModel = getItem(position)
-        holder.TextViewIId.setText("" + socialFeedModel.id)
-        holder.textViewDescription.setText(socialFeedModel.user?.description?: "null description")
-        holder.textViewName.setText(socialFeedModel.user?.name?: "null name")
+        if(socialFeedModel == null) {
+            holder.TextViewIId.setText("loading")
+            holder.textViewDescription.setText("loading")
+            holder.textViewName.setText("loading")
+        }else {
+            holder.TextViewIId.setText("" + socialFeedModel.id)
+            holder.textViewDescription.setText(socialFeedModel.user?.description?: "null description")
+            holder.textViewName.setText(socialFeedModel.user?.name?: "null name")
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SocialFeedViewHolder {
@@ -24,7 +32,7 @@ class SocialFeedsAdapter : ListAdapter<SocialFeedModel, SocialFeedViewHolder>(Di
         return SocialFeedViewHolder(view)
     }
 
-    fun getSocialFeedModelAt(position: Int): SocialFeedModel {
+    fun getSocialFeedModelAt(position: Int): SocialFeedModel? {
         return getItem(position)
     }
 }

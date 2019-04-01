@@ -1,5 +1,6 @@
 package com.example.mvvmtemplate.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
@@ -14,7 +15,8 @@ class SocialFeedRepository private constructor(
     private val socialFeedsApiService: SocialFeedApiService = SocialFeedApiService.getInstance()
 ) {
     private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
-    val socialFeedModels get() = socialFeedsDao.getSocialFeeds()
+
+    val socialFeedModels: LiveData<List<SocialFeedModel>> = socialFeedsDao.getSocialFeeds()
 
     val fetchFeedsState: MutableLiveData<FetchState> by lazy {
         MutableLiveData<FetchState>()

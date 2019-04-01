@@ -3,24 +3,44 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/navigation_graph"
-            app:startDestination="@id/mainFragment">
+            app:startDestination="@id/navigation_home">
 
     <fragment android:id="@+id/mainFragment"
               android:name="com.example.mvvmtemplate.MainFragment"
               android:label="fragment_main"
               tools:layout="@layout/fragment_main">
-        <action android:id="@+id/action_mainFragment_to_socialFeedsFragment"
+        <action
+                android:id="@+id/action_mainFragment_to_socialFeedsFragment"
                 app:destination="@id/socialFeedsFragment"/>
     </fragment>
     <fragment android:id="@+id/socialFeedsFragment"
-              android:name="com.example.mvvmtemplate.view.SocialFeedsFragment"
+              android:name="com.example.mvvmtemplate.screens.SocialFeedsFragment"
               android:label="fragment_social_feeds"
               tools:layout="@layout/fragment_social_feeds">
-        <action android:id="@+id/action_socialFeedsFragment_to_feedDetailFragment"
+        <action
+                android:id="@+id/action_socialFeedsFragment_to_feedDetailFragment"
                 app:destination="@id/feedDetailFragment"/>
     </fragment>
     <fragment android:id="@+id/feedDetailFragment"
-              android:name="com.example.mvvmtemplate.view.FeedDetailFragment"
+              android:name="com.example.mvvmtemplate.screens.FeedDetailFragment"
               android:label="fragment_feed_detail"
               tools:layout="@layout/fragment_feed_detail"/>
+    <fragment android:id="@+id/navigation_discover"
+              android:name="com.example.mvvmtemplate.screens.DiscoverTabFragment"
+              android:label="fragment_discover_tab"
+              tools:layout="@layout/fragment_discover_tab">
+        <action android:id="@+id/action_navigation_discover_to_gitHubSearchFragment"
+                app:destination="@id/gitHubSearchFragment"/>
+    </fragment>
+    <fragment android:id="@+id/navigation_home"
+              android:name="com.example.mvvmtemplate.screens.HomeTabFragment"
+              android:label="fragment_home_tab"
+              tools:layout="@layout/fragment_home_tab">
+        <action android:id="@+id/action_navigation_home_to_mainFragment"
+                app:destination="@id/mainFragment"/>
+    </fragment>
+    <fragment android:id="@+id/gitHubSearchFragment"
+              android:name="com.example.mvvmtemplate.screens.GitHubSearchFragment"
+              android:label="fragment_git_hub_search"
+              tools:layout="@layout/fragment_git_hub_search"/>
 </navigation>

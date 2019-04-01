@@ -1,9 +1,11 @@
 package com.example.mvvmtemplate.model.local
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.mvvmtemplate.MainApplication
+import com.example.mvvmtemplate.model.GitHubRepoModel
 import com.example.mvvmtemplate.model.SocialFeedModel
 
 @Database(entities = arrayOf(SocialFeedModel::class), version = 1)
@@ -23,5 +25,4 @@ abstract class SocialFeedsLocalDatabase : RoomDatabase() {
 
         }
     }
-
 }

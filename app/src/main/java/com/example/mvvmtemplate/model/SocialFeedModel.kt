@@ -13,10 +13,10 @@ data class SocialFeedModel @JvmOverloads constructor(
     val id: Long? = null,
     @Embedded(prefix = "user")
     val user: UserModel?
-    )
+)
 
 data class UserModel @JvmOverloads constructor(
     val id: Long? = 1,
     var name: String?,
     var description: String?
-    )
+)
