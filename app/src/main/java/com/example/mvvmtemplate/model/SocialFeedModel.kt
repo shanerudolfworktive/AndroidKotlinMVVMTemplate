@@ -12,7 +12,7 @@ data class SocialFeedModel @JvmOverloads constructor(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     @Embedded(prefix = "user")
-    val user: UserModel?
+    var user: UserModel?
 )
 
 data class UserModel @JvmOverloads constructor(

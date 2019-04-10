@@ -31,6 +31,6 @@ interface SocialFeedsDao {
     fun deleteAllSocialFeeds()
 
     @Query("select * from SocialFeedsTable limit 1")
-    fun first(): SocialFeedModel
+    fun first(): SocialFeedModel?
 
 }

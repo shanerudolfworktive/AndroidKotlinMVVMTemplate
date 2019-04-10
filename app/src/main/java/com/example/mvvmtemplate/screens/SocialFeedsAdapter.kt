@@ -1,35 +1,24 @@
 package com.example.mvvmtemplate.screens
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mvvmtemplate.R
+import com.example.mvvmtemplate.databinding.SocialFeedsCardBinding
 import com.example.mvvmtemplate.model.SocialFeedModel
-import kotlinx.android.synthetic.main.social_feeds_card.view.*
 
 class SocialFeedsAdapter : ListAdapter<SocialFeedModel, SocialFeedViewHolder>(DiffCallback()) {
 
+    var inflater: LayoutInflater? = null
     override fun onBindViewHolder(holder: SocialFeedViewHolder, position: Int) {
         val socialFeedModel = getItem(position)
-        if(socialFeedModel == null) {
-            holder.TextViewIId.setText("loading")
-            holder.textViewDescription.setText("loading")
-            holder.textViewName.setText("loading")
-        }else {
-            holder.TextViewIId.setText("" + socialFeedModel.id)
-            holder.textViewDescription.setText(socialFeedModel.user?.description?: "null description")
-            holder.textViewName.setText(socialFeedModel.user?.name?: "null name")
-        }
-
+        holder.bind(socialFeedModel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SocialFeedViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.social_feeds_card, parent, false)
-        return SocialFeedViewHolder(view)
+        if(inflater == null) inflater = LayoutInflater.from(parent.context)
+        return SocialFeedViewHolder(SocialFeedsCardBinding.inflate(inflater!!, parent, false))
     }
 
     fun getSocialFeedModelAt(position: Int): SocialFeedModel? {
@@ -47,11 +36,10 @@ class DiffCallback : DiffUtil.ItemCallback<SocialFeedModel>() {
                 && oldItem.user?.id == newItem.user?.id
                 && oldItem.user?.name == newItem.user?.name
     }
-
 }
 
-class SocialFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val TextViewIId =itemView.textViewId
-    val textViewName = itemView.textViewName
-    val textViewDescription = itemView.textViewDesription
+class SocialFeedViewHolder(val binding: SocialFeedsCardBinding): RecyclerView.ViewHolder(binding.root) {
+    fun bind(model: SocialFeedModel?) {
+        binding.feedModel = model
+    }
 }

@@ -25,8 +25,7 @@ class GitHubSearchRepository private constructor(
     private val queryLiveData = MutableLiveData<String>()
 
     private val pagingConfig = Config(
-        pageSize = 2,
-        prefetchDistance = 30
+        pageSize = 20
 //        enablePlaceholders = false
     )
 
@@ -48,6 +47,7 @@ class GitHubSearchRepository private constructor(
     }
 
     companion object {
+        @Volatile
         private var INSTANCE: GitHubSearchRepository? = null
         fun getInstance(): GitHubSearchRepository {
             synchronized(this) {

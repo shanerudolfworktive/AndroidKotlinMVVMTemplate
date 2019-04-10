@@ -2,33 +2,21 @@ package com.example.mvvmtemplate.screens
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmtemplate.R
 import com.example.mvvmtemplate.repository.FetchState
 import com.example.mvvmtemplate.viewmodel.SocialFeedsViewModel
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_social_feeds.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.navigation.fragment.findNavController
-import com.example.mvvmtemplate.R
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class SocialFeedsFragment : Fragment() {
 
     lateinit var socialFeedsViewModel: SocialFeedsViewModel
@@ -39,7 +27,6 @@ class SocialFeedsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_social_feeds, container, false)
     }
 
@@ -65,7 +52,6 @@ class SocialFeedsFragment : Fragment() {
         })
 
         socialFeedsViewModel.fetchFeedsState.observe(viewLifecycleOwner, Observer {
-            Log.e("testing====", Gson().toJson(it))
             socialFeedsRefreshLayout.isRefreshing = it == FetchState.LOADING
         })
 

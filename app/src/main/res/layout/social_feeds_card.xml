@@ -1,44 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp">
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-            android:layout_width="wrap_content"
+    <data>
+        <variable
+                name="feedModel"
+                type="com.example.mvvmtemplate.model.SocialFeedModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp">
 
-        <TextView
-                android:id="@+id/textViewId"
+        <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="1"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+                android:padding="8dp">
 
-        <TextView
-                android:id="@+id/textViewName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_toStartOf="@+id/textViewId"
-                android:layout_alignParentStart="true"/>
+            <TextView
+                    android:id="@+id/textViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@{``+feedModel.id}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
-        <TextView
-                android:id="@+id/textViewDesription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:layout_below="@+id/textViewName"/>
+            <TextView
+                    android:id="@+id/textViewName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{feedModel.user.name ?? @string/loading}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_toStartOf="@+id/textViewId"
+                    android:layout_alignParentStart="true"/>
 
-    </RelativeLayout>
+            <TextView
+                    android:id="@+id/textViewDesription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{feedModel.user.description ?? @string/loading, default=`place holder text`}"
+                    android:layout_below="@+id/textViewName"/>
 
-</androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
