@@ -5,11 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.example.mvvmtemplate.model.GitHubRepoModel
-import com.example.mvvmtemplate.model.GitHubSearchResponseModel
 import com.example.mvvmtemplate.model.local.GitHubSearchDatabase
 import com.example.mvvmtemplate.model.remote.apiService.GitHubApiService
 import com.example.mvvmtemplate.util.AppExecutors
-import com.google.gson.Gson
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -53,12 +52,14 @@ class GitHubSearchBoundaryCallback(
     private fun requestAndSaveData(query: String) {
         if (isRequestInProgress) return
 
-        gitHubApiService.searchRepos(query, lastRequestedPage, 50).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        isRequestInProgress = true
+        gitHubApiService.searchRepos(query, lastRequestedPage, 50).subscribeOn(Schedulers.io())
+            .flatMap {
+                gitHubSearchDatabase.gitHubSearchDao().insert(it.items)
+                Observable.just(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.d("RepoBoundaryCallback", "search success with lastRequestedPage=" + lastRequestedPage)
-                appExecutors.diskIO.execute{
-                    gitHubSearchDatabase.gitHubSearchDao().insert(it.items)
-                }
                 lastRequestedPage++
                 isRequestInProgress = false
             }, {

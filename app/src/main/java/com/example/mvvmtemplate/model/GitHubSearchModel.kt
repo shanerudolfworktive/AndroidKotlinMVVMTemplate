@@ -1,11 +1,8 @@
 package com.example.mvvmtemplate.model
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import java.text.SimpleDateFormat
-import java.util.*
 
 data class GitHubSearchResponseModel constructor(
     val total_count: Int = 0,

@@ -3,82 +3,55 @@ package com.example.mvvmtemplate.screens
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mvvmtemplate.R
+import com.example.mvvmtemplate.databinding.GithubSearchItemBinding
 import com.example.mvvmtemplate.model.GitHubRepoModel
 
-class GitHubSearchAdapter : PagedListAdapter<GitHubRepoModel, RecyclerView.ViewHolder>(REPO_COMPARATOR){
+class GitHubSearchAdapter : PagedListAdapter<GitHubRepoModel, RepoViewHolder>(REPO_COMPARATOR){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
         return RepoViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
         val repoItem = getItem(position)
-        if (repoItem != null) {
-            (holder as RepoViewHolder).bind(repoItem)
-        }
+        holder.bind(repoItem)
     }
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<GitHubRepoModel>() {
             override fun areItemsTheSame(oldItem: GitHubRepoModel, newItem: GitHubRepoModel): Boolean =
-                oldItem.full_name == newItem.full_name
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: GitHubRepoModel, newItem: GitHubRepoModel): Boolean =
-                oldItem == newItem
+                oldItem.full_name == newItem.full_name
         }
     }
 }
 
-class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val name: TextView = view.findViewById(R.id.repo_name)
-    private val description: TextView = view.findViewById(R.id.repo_description)
+class RepoViewHolder(private val binding: GithubSearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    private var repo: GitHubRepoModel? = null
-
+    var repo: GitHubRepoModel? = null
     init {
-        view.setOnClickListener {
+        binding.root.setOnClickListener {
             repo?.html_url?.let { url ->
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                view.context.startActivity(intent)
+                it.context.startActivity(intent)
             }
         }
     }
 
     fun bind(repo: GitHubRepoModel?) {
-        if (repo == null) {
-            val resources = itemView.resources
-            name.text = resources.getString(R.string.loading)
-            description.visibility = View.GONE
-        } else {
-            showRepoData(repo)
-        }
-    }
-
-    private fun showRepoData(repo: GitHubRepoModel) {
         this.repo = repo
-        name.text = repo.full_name
-
-        // if the description is missing, hide the TextView
-        var descriptionVisibility = View.GONE
-        if (repo.description != null) {
-            description.text = repo.description
-            descriptionVisibility = View.VISIBLE
-        }
-        description.visibility = descriptionVisibility
+        binding.githubRepoModel = repo
     }
 
     companion object {
         fun create(parent: ViewGroup): RepoViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.github_search_item, parent, false)
-            return RepoViewHolder(view)
+            val inflater = LayoutInflater.from(parent.context)
+            return RepoViewHolder(GithubSearchItemBinding.inflate(inflater, parent, false))
         }
     }
 }
