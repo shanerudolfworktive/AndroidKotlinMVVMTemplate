@@ -2,6 +2,7 @@ package com.example.mvvmtemplate.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.mvvmtemplate.Injection
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
@@ -12,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 class SocialFeedRepository private constructor(
     private val appExecutors: AppExecutors = AppExecutors(),
     private val socialFeedsDatabase: SocialFeedsLocalDatabase = SocialFeedsLocalDatabase.getInstance(),
-    private val socialFeedsApiService: SocialFeedApiService = SocialFeedApiService.getInstance()
+    private val socialFeedsApiService: SocialFeedApiService = Injection.provideSocialFeedService()
 ) {
     private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
 
