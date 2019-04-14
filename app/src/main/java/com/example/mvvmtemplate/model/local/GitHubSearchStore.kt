@@ -14,8 +14,9 @@ abstract class GitHubSearchDao {
     fun insert(response: GitHubSearchResponseModel) {
         var last = last()?.pageNumber?: 0
         last++
+        var curTime = System.currentTimeMillis()
         for(i: GitHubRepoModel in response.items) {
-            i.insertTime = System.currentTimeMillis()
+            i.insertTime = curTime++
             i.pageNumber = last
         }
         insert(response.items)
