@@ -25,8 +25,7 @@ class GitHubSearchRepository private constructor(
     private val queryLiveData = MutableLiveData<String>()
 
     private val pagingConfig = Config(
-        pageSize = 50,
-        prefetchDistance = 20
+        pageSize = 20
     )
 
     val gitHubRepoModels: LiveData<PagedList<GitHubRepoModel>> = Transformations.switchMap(queryLiveData){

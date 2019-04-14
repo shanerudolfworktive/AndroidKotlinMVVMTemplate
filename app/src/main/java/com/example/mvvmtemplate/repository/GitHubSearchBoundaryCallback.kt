@@ -15,8 +15,7 @@ import io.reactivex.schedulers.Schedulers
 class GitHubSearchBoundaryCallback(
     private val query: String,
     private val gitHubApiService: GitHubApiService = GitHubApiService.getInstance(),
-    private val gitHubSearchDatabase: GitHubSearchDatabase = GitHubSearchDatabase.getInstance(),
-    private val appExecutors: AppExecutors = AppExecutors()
+    private val gitHubSearchDatabase: GitHubSearchDatabase = GitHubSearchDatabase.getInstance()
     ): PagedList.BoundaryCallback<GitHubRepoModel>(){
     companion object {
         private const val NETWORK_PAGE_SIZE = 50
@@ -38,6 +37,7 @@ class GitHubSearchBoundaryCallback(
      */
     override fun onZeroItemsLoaded() {
         Log.d("RepoBoundaryCallback", "onZeroItemsLoaded")
+
         requestAndSaveData(query)
     }
 
@@ -53,9 +53,9 @@ class GitHubSearchBoundaryCallback(
         if (isRequestInProgress) return
 
         isRequestInProgress = true
-        gitHubApiService.searchRepos(query, lastRequestedPage, 50).subscribeOn(Schedulers.io())
+        gitHubApiService.searchRepos(query, lastRequestedPage, NETWORK_PAGE_SIZE).subscribeOn(Schedulers.io())
             .flatMap {
-                gitHubSearchDatabase.gitHubSearchDao().insert(it.items)
+                gitHubSearchDatabase.gitHubSearchDao().insert(it)
                 Observable.just(it)
             }
             .observeOn(AndroidSchedulers.mainThread())

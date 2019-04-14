@@ -11,7 +11,6 @@ import com.example.mvvmtemplate.databinding.GithubSearchItemBinding
 import com.example.mvvmtemplate.model.GitHubRepoModel
 
 class GitHubSearchAdapter : PagedListAdapter<GitHubRepoModel, RepoViewHolder>(REPO_COMPARATOR){
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
         return RepoViewHolder.create(parent)
     }
@@ -26,7 +25,8 @@ class GitHubSearchAdapter : PagedListAdapter<GitHubRepoModel, RepoViewHolder>(RE
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: GitHubRepoModel, newItem: GitHubRepoModel): Boolean =
-                oldItem.full_name == newItem.full_name
+                oldItem.full_name == newItem.full_name && oldItem.description == newItem.description
+                        && oldItem.forks_count == newItem.forks_count
         }
     }
 }

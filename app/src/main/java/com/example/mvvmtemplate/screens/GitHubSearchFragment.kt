@@ -60,13 +60,11 @@ class GitHubSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_git_hub_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // add dividers between RecyclerView's row items
         list.adapter = adapter
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         list.addItemDecoration(decoration)
@@ -83,9 +81,7 @@ class GitHubSearchFragment : Fragment() {
     private fun updateRepoListFromInput() {
         search_repo.text.trim().let {
             if (it.isNotEmpty()) {
-                list.scrollToPosition(0)
                 viewModel.gitHubSearch(it.toString())
-                adapter.submitList(null)
             }
         }
     }

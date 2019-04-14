@@ -5,25 +5,33 @@ import androidx.paging.DataSource
 import androidx.room.*
 import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.model.GitHubRepoModel
+import com.example.mvvmtemplate.model.GitHubSearchResponseModel
 import com.example.mvvmtemplate.model.SocialFeedModel
 
 @Dao
-interface GitHubSearchDao {
+abstract class GitHubSearchDao {
+
+    fun insert(response: GitHubSearchResponseModel) {
+        for(i: GitHubRepoModel in response.items) {
+            i.insertTime = System.currentTimeMillis()
+        }
+        insert(response.items)
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(posts: List<GitHubRepoModel>)
+    abstract fun insert(posts: List<GitHubRepoModel>)
 
     // Do a similar query as the search API:
     // Look for repos that contain the query string in the name or in the description
     // and order those results descending, by the number of stars and then by name
-    @Query("SELECT * FROM GitHubRepoTable")
-    fun reposByName(): DataSource.Factory<Int,GitHubRepoModel>
+    @Query("SELECT * FROM GitHubRepoTable ORDER BY insertTime")
+    abstract fun reposByName(): DataSource.Factory<Int,GitHubRepoModel>
 
     @Query("select * from GitHubRepoTable limit 1")
-    fun first(): GitHubRepoModel
+    abstract fun first(): GitHubRepoModel
 
     @Query("delete from GitHubRepoTable")
-    fun deleteAllSearches()
+    abstract fun deleteAllSearches()
 }
 
 @Database(entities = [GitHubRepoModel::class], version = 1)
