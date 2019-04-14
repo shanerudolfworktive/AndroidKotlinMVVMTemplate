@@ -56,15 +56,13 @@ class GitHubSearchBoundaryCallback(
 
         isRequestInProgress = true
 
-        Observable.fromCallable {
-            dao.last()?.pageNumber?: 0
-        }.subscribeOn(Schedulers.io())
+        Observable.fromCallable { dao.last()?.pageNumber?: 0 }
+            .subscribeOn(Schedulers.io())
             .flatMap {
                 gitHubApiService.searchRepos(query, it + 1, NETWORK_PAGE_SIZE)
             }
-            .flatMap {
+            .doOnNext {
                 dao.insert(it)
-                Observable.just(it)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

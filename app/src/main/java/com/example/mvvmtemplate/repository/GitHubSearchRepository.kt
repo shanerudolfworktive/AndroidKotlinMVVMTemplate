@@ -13,8 +13,7 @@ import com.example.mvvmtemplate.util.AppExecutors
 
 class GitHubSearchRepository private constructor(
     private val appExecutors: AppExecutors = AppExecutors(),
-    private val gitHubSearchDatabase: GitHubSearchDatabase = GitHubSearchDatabase.getInstance(),
-    private val gitHubApiService: GitHubApiService = GitHubApiService.getInstance()
+    private val gitHubSearchDatabase: GitHubSearchDatabase = GitHubSearchDatabase.getInstance()
     ){
 
     private val queryLiveData = MutableLiveData<String>()
