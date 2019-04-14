@@ -20,5 +20,6 @@ data class GitHubRepoModel @JvmOverloads constructor(
     val stargazers_count: Int,
     val forks_count: Int,
     val language: String?,
-    var insertTime: Long
+    var insertTime: Long,
+    var pageNumber: Int?
 )

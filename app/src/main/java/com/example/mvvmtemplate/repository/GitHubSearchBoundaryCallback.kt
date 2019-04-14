@@ -1,13 +1,18 @@
 package com.example.mvvmtemplate.repository
 
+import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
+import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.model.GitHubRepoModel
+import com.example.mvvmtemplate.model.local.GitHubSearchDao
 import com.example.mvvmtemplate.model.local.GitHubSearchDatabase
 import com.example.mvvmtemplate.model.remote.apiService.GitHubApiService
 import com.example.mvvmtemplate.util.AppExecutors
+import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,14 +20,11 @@ import io.reactivex.schedulers.Schedulers
 class GitHubSearchBoundaryCallback(
     private val query: String,
     private val gitHubApiService: GitHubApiService = GitHubApiService.getInstance(),
-    private val gitHubSearchDatabase: GitHubSearchDatabase = GitHubSearchDatabase.getInstance()
+    private val dao: GitHubSearchDao = GitHubSearchDatabase.getInstance().gitHubSearchDao()
     ): PagedList.BoundaryCallback<GitHubRepoModel>(){
     companion object {
         private const val NETWORK_PAGE_SIZE = 50
     }
-
-    // keep the last requested page. When the request is successful, increment the page number.
-    private var lastRequestedPage = 1
 
     private val _networkErrors = MutableLiveData<String>()
     // LiveData of network errors.
@@ -53,18 +55,22 @@ class GitHubSearchBoundaryCallback(
         if (isRequestInProgress) return
 
         isRequestInProgress = true
-        gitHubApiService.searchRepos(query, lastRequestedPage, NETWORK_PAGE_SIZE).subscribeOn(Schedulers.io())
+
+        Observable.fromCallable {
+            dao.last()?.pageNumber?: 0
+        }.subscribeOn(Schedulers.io())
             .flatMap {
-                gitHubSearchDatabase.gitHubSearchDao().insert(it)
+                gitHubApiService.searchRepos(query, it + 1, NETWORK_PAGE_SIZE)
+            }
+            .flatMap {
+                dao.insert(it)
                 Observable.just(it)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                lastRequestedPage++
                 isRequestInProgress = false
             }, {
                 isRequestInProgress = false
-                it.printStackTrace()
             })
     }
 }

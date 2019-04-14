@@ -1,6 +1,5 @@
 package com.example.mvvmtemplate.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -8,13 +7,9 @@ import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.example.mvvmtemplate.model.GitHubRepoModel
-import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.GitHubSearchDatabase
 import com.example.mvvmtemplate.model.remote.apiService.GitHubApiService
 import com.example.mvvmtemplate.util.AppExecutors
-import com.google.gson.Gson
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class GitHubSearchRepository private constructor(
     private val appExecutors: AppExecutors = AppExecutors(),

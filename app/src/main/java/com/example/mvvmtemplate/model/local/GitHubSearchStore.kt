@@ -12,8 +12,11 @@ import com.example.mvvmtemplate.model.SocialFeedModel
 abstract class GitHubSearchDao {
 
     fun insert(response: GitHubSearchResponseModel) {
+        var last = last()?.pageNumber?: 0
+        last++
         for(i: GitHubRepoModel in response.items) {
             i.insertTime = System.currentTimeMillis()
+            i.pageNumber = last
         }
         insert(response.items)
     }
@@ -27,8 +30,11 @@ abstract class GitHubSearchDao {
     @Query("SELECT * FROM GitHubRepoTable ORDER BY insertTime")
     abstract fun reposByName(): DataSource.Factory<Int,GitHubRepoModel>
 
-    @Query("select * from GitHubRepoTable limit 1")
-    abstract fun first(): GitHubRepoModel
+    @Query("select * from GitHubRepoTable ORDER BY insertTime limit 1")
+    abstract fun first(): GitHubRepoModel?
+
+    @Query("select * from GitHubRepoTable ORDER BY insertTime DESC limit 1")
+    abstract fun last(): GitHubRepoModel?
 
     @Query("delete from GitHubRepoTable")
     abstract fun deleteAllSearches()
