@@ -1,6 +1,5 @@
 package com.example.mvvmtemplate.di.modules
 
-import com.example.mvvmtemplate.Injection
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
 import dagger.Module
 import dagger.Provides
