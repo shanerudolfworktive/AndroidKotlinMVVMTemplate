@@ -1,11 +1,21 @@
 package com.example.mvvmtemplate.viewmodel
 
+import com.example.mvvmtemplate.di.components.DaggerSocialFeedViewModelComponent
+import com.example.mvvmtemplate.di.modules.RepoModule
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.repository.SocialFeedRepository
+import javax.inject.Inject
 
-class SocialFeedsViewModel constructor(
-    private val repository: SocialFeedRepository = SocialFeedRepository.getInstance()
-    ) : BaseViewModel() {
+class SocialFeedsViewModel : BaseViewModel() {
+    @Inject lateinit var repository: SocialFeedRepository
+
+    init {
+        DaggerSocialFeedViewModelComponent.builder()
+            .repoModule(RepoModule())
+            .build()
+            .inject(this)
+    }
+
     var fetchFeedsState = repository.fetchFeedsState
     var socialfeedModels = repository.socialFeedModels
 
