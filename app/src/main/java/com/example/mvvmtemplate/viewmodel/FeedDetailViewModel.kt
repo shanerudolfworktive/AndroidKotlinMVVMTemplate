@@ -13,7 +13,7 @@ class FeedDetailViewModel : BaseViewModel() {
     @Inject lateinit var repository: FeedDetailRepository
 
     init {
-        MainApplication.appComponnet.plusAnything(RepoModule()).inject(this)
+        MainApplication.appComponnet.feedDetailViewModelComponent(RepoModule()).inject(this)
     }
 
     var name = MutableLiveData<String>().apply{postValue("")}

@@ -10,7 +10,7 @@ class SocialFeedsViewModel : BaseViewModel() {
     @Inject lateinit var repository: SocialFeedRepository
 
     init {
-        MainApplication.appComponnet.plus(RepoModule()).inject(this)
+        MainApplication.appComponnet.socialFeedViewModelComponent(RepoModule()).inject(this)
     }
 
     var fetchFeedsState = repository.fetchFeedsState
