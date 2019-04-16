@@ -10,9 +10,8 @@ class SocialFeedsViewModel : BaseViewModel() {
     @Inject lateinit var repository: SocialFeedRepository
 
     init {
-        DaggerSocialFeedViewModelComponent.builder()
-            .repoModule(RepoModule())
-            .build()
+        DaggerSocialFeedViewModelComponent
+            .create()
             .inject(this)
     }
 
