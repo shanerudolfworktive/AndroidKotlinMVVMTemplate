@@ -1,12 +1,9 @@
 package com.example.mvvmtemplate.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.mvvmtemplate.Injection
-import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.model.SocialFeedModel
-import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
+import com.example.mvvmtemplate.model.local.SocialFeedsDao
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
 import com.example.mvvmtemplate.util.AppExecutors
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,13 +11,10 @@ import io.reactivex.schedulers.Schedulers
 
 class SocialFeedRepository constructor(
     private val appExecutors: AppExecutors = AppExecutors(),
-    private val socialFeedsDatabase: SocialFeedsLocalDatabase = SocialFeedsLocalDatabase.getInstance(),
-    private val socialFeedsApiService: SocialFeedApiService = Injection.provideSocialFeedService(),
-    private val context: Context
+    private val dao: SocialFeedsDao,
+    private val socialFeedsApiService: SocialFeedApiService
 ) {
-    private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
-
-    val socialFeedModels: LiveData<List<SocialFeedModel>> = socialFeedsDao.getSocialFeeds()
+    val socialFeedModels: LiveData<List<SocialFeedModel>> = dao.getSocialFeeds()
 
     val fetchFeedsState: MutableLiveData<FetchState> by lazy {
         MutableLiveData<FetchState>()
@@ -29,7 +23,7 @@ class SocialFeedRepository constructor(
     fun fetchSocialFeeds(force: Boolean = false) {
         if(fetchFeedsState.value == FetchState.LOADING) return
         appExecutors.diskIO.execute {
-            if(force || socialFeedsDao.first() == null) fetchSocialFeeds()
+            if(force || dao.first() == null) fetchSocialFeeds()
         }
     }
 
@@ -47,32 +41,32 @@ class SocialFeedRepository constructor(
 
     private fun insertSocialFeeds(socialFeeds: List<SocialFeedModel>) {
         appExecutors.diskIO.execute {
-            SocialFeedsLocalDatabase.getInstance().socialFeedsDao().insertSocialFeeds(socialFeeds)
+            dao.insertSocialFeeds(socialFeeds)
         }
     }
 
     fun deleteSocialFeed(socialFeedModel: SocialFeedModel) {
         appExecutors.diskIO.execute {
-            socialFeedsDao.deleteSocialFeeds(*arrayOf(socialFeedModel))
+            dao.deleteSocialFeeds(*arrayOf(socialFeedModel))
         }
     }
 
     fun deleteAllSocialFeeds() {
         appExecutors.diskIO.execute {
-            socialFeedsDao.deleteAllSocialFeeds()
+            dao.deleteAllSocialFeeds()
         }
     }
 
-    companion object {
-        private var INSTANCE: SocialFeedRepository? = null
-        private val lock = Any()
-        fun getInstance(): SocialFeedRepository {
-            synchronized(lock) {
-                if (INSTANCE == null) {
-                    INSTANCE = SocialFeedRepository(context = MainApplication.appContext)
-                }
-            }
-            return INSTANCE!!
-        }
-    }
+//    companion object {
+//        private var INSTANCE: SocialFeedRepository? = null
+//        private val lock = Any()
+//        fun getInstance(): SocialFeedRepository {
+//            synchronized(lock) {
+//                if (INSTANCE == null) {
+//                    INSTANCE = SocialFeedRepository()
+//                }
+//            }
+//            return INSTANCE!!
+//        }
+//    }
 }

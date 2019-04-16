@@ -11,9 +11,6 @@ class SocialFeedsViewModel : BaseViewModel() {
 
     init {
         MainApplication.appComponnet.plus(RepoModule()).inject(this)
-//        DaggerSocialFeedViewModelComponent
-//            .create()
-//            .inject(this)
     }
 
     var fetchFeedsState = repository.fetchFeedsState
