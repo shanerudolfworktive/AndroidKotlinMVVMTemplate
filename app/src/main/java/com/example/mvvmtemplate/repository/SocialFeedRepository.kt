@@ -21,12 +21,15 @@ class SocialFeedRepository constructor(
 
     fun fetchSocialFeeds(forced: Boolean = false) {
         if(fetchFeedsState.value == FetchState.LOADING) return
-        fetchFeedsState.value = FetchState.LOADING
         Observable.fromCallable { dao.first() == null }
             .subscribeOn(Schedulers.io())
             .flatMap {
-                if (it || forced) socialFeedsApiService.fetchFeeds()
-                else Observable.empty<List<SocialFeedModel>>()
+                if(!it && !forced) {
+                    Observable.empty<List<SocialFeedModel>>()//skip
+                }else {
+                    fetchFeedsState.postValue(FetchState.LOADING)
+                    socialFeedsApiService.fetchFeeds()
+                }
             }
             .doOnNext{
                 dao.insertSocialFeeds(it)
