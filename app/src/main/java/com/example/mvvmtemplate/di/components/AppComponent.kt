@@ -11,4 +11,5 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     fun plus(module: RepoModule): SocialFeedViewModelComponent
+    fun plusAnything(module: RepoModule): FeedDetailViewModelComponent
 }

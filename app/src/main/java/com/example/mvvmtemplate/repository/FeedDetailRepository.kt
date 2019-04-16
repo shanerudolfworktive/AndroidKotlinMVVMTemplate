@@ -1,28 +1,29 @@
 package com.example.mvvmtemplate.repository
 
 import com.example.mvvmtemplate.model.SocialFeedModel
+import com.example.mvvmtemplate.model.local.SocialFeedsDao
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.util.AppExecutors
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 
-class FeedDetailRepository private constructor(
-    private val appExecutors: AppExecutors = AppExecutors(),
-    private val socialFeedsDatabase: SocialFeedsLocalDatabase = SocialFeedsLocalDatabase.getInstance()
-) {
-    private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
+class FeedDetailRepository constructor(
+    private val dao: SocialFeedsDao
+    ) {
     fun insertSocialFeed(socialFeedModel: SocialFeedModel) {
-        appExecutors.diskIO.execute {
-            socialFeedsDao.insertSocialFeed(socialFeedModel)
-        }
+        Observable.fromCallable { dao.insertSocialFeed(socialFeedModel) }
+            .subscribeOn(Schedulers.single())
+            .subscribe()
     }
 
-    companion object {
-        private var INSTANCE: FeedDetailRepository? = null
-        fun getInstance(): FeedDetailRepository {
-            synchronized(this) {
-                if (INSTANCE == null) INSTANCE = FeedDetailRepository()
-            }
-            return INSTANCE!!
-        }
-    }
+//    companion object {
+//        private var INSTANCE: FeedDetailRepository? = null
+//        fun getInstance(): FeedDetailRepository {
+//            synchronized(this) {
+//                if (INSTANCE == null) INSTANCE = FeedDetailRepository()
+//            }
+//            return INSTANCE!!
+//        }
+//    }
 
 }
