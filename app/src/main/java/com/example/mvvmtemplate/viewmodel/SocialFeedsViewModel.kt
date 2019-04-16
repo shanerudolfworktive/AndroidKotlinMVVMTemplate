@@ -1,6 +1,6 @@
 package com.example.mvvmtemplate.viewmodel
 
-import com.example.mvvmtemplate.di.components.DaggerSocialFeedViewModelComponent
+import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.di.modules.RepoModule
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.repository.SocialFeedRepository
@@ -10,9 +10,10 @@ class SocialFeedsViewModel : BaseViewModel() {
     @Inject lateinit var repository: SocialFeedRepository
 
     init {
-        DaggerSocialFeedViewModelComponent
-            .create()
-            .inject(this)
+        MainApplication.appComponnet.plus(RepoModule()).inject(this)
+//        DaggerSocialFeedViewModelComponent
+//            .create()
+//            .inject(this)
     }
 
     var fetchFeedsState = repository.fetchFeedsState

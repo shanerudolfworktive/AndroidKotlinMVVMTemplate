@@ -1,8 +1,10 @@
 package com.example.mvvmtemplate.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmtemplate.Injection
+import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
@@ -10,10 +12,11 @@ import com.example.mvvmtemplate.util.AppExecutors
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class SocialFeedRepository private constructor(
+class SocialFeedRepository constructor(
     private val appExecutors: AppExecutors = AppExecutors(),
     private val socialFeedsDatabase: SocialFeedsLocalDatabase = SocialFeedsLocalDatabase.getInstance(),
-    private val socialFeedsApiService: SocialFeedApiService = Injection.provideSocialFeedService()
+    private val socialFeedsApiService: SocialFeedApiService = Injection.provideSocialFeedService(),
+    private val context: Context
 ) {
     private val socialFeedsDao = socialFeedsDatabase.socialFeedsDao()
 
@@ -66,7 +69,7 @@ class SocialFeedRepository private constructor(
         fun getInstance(): SocialFeedRepository {
             synchronized(lock) {
                 if (INSTANCE == null) {
-                    INSTANCE = SocialFeedRepository()
+                    INSTANCE = SocialFeedRepository(context = MainApplication.appContext)
                 }
             }
             return INSTANCE!!
