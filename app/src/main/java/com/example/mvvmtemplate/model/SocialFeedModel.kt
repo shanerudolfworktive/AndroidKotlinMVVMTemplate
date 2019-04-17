@@ -10,7 +10,7 @@ import java.util.*
 data class SocialFeedModel @JvmOverloads constructor(
     val created_at: String? = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date()),
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
+    var id: Long? = null,
     @Embedded(prefix = "user")
     var user: UserModel?
 )
