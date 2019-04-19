@@ -38,7 +38,6 @@ class FeedDetailViewModelUnitTest{
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule() // Force tests to be executed synchronously
 
-    private lateinit var activity: FragmentActivity
     private lateinit var viewModel: FeedDetailViewModel
 
     @Inject lateinit var dao: SocialFeedsDao
@@ -57,18 +56,16 @@ class FeedDetailViewModelUnitTest{
         viewModel.name.value = "testName"
 
         assertTrue("please use mock variant for testing" ,dao is FakeSocialFeedsDao)
-        dao as FakeSocialFeedsDao
 
         val latch = CountDownLatch(2)//one for initialization, one for actual insert
         (dao as FakeSocialFeedsDao).feeds.observeForever{
-            System.out.println("hit here =" + it.size)
             latch.countDown()
         }
 
         viewModel.insertSocialFeed()
         latch.await()
 
-        assertEquals(dao.first()?.user?.description, "testDescription");
-        assertEquals(dao.first()?.user?.description, "testName");
+        assertEquals(dao.first()?.user?.description, "testDescription")
+        assertEquals(dao.first()?.user?.name, "testName")
     }
 }

@@ -1,6 +1,5 @@
 package com.example.mvvmtemplate.di.components
 
-import com.example.mvvmtemplate.FeedDetailViewModelUnitTest
 import com.example.mvvmtemplate.di.modules.APIModule
 import com.example.mvvmtemplate.di.modules.AppModule
 import com.example.mvvmtemplate.di.modules.DataBaseModule

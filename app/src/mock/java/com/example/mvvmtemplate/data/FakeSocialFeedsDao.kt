@@ -10,16 +10,7 @@ class FakeSocialFeedsDao : SocialFeedsDao{
 
     val mutableFeeds = HashMap<Long, SocialFeedModel>()
 
-    val feeds: MutableLiveData<List<SocialFeedModel>> = MutableLiveData<List<SocialFeedModel>>()
-//        Transformations.switchMap(mutableFeeds) {
-//        feeds
-//    }
-
-//    val feeds: MutableLiveData<List<SocialFeedModel>> = Transformations.switchMap(mutableFeeds){
-//        val list = MutableLiveData<List<SocialFeedModel>>()
-//        list.value = it.values.toList()
-//        list
-//    }
+    val feeds: MutableLiveData<List<SocialFeedModel>> = MutableLiveData()
 
     var fakeIDDecrement = -100L
     get() = field--
@@ -34,7 +25,6 @@ class FakeSocialFeedsDao : SocialFeedsDao{
             mutableFeeds.put(item.id!!, item)
         }
         feeds.postValue(mutableFeeds.values.toList())
-//        mutableFeeds.postValue(mutableFeeds.value)
     }
 
     override fun insertSocialFeed(socialFeed: SocialFeedModel) {
