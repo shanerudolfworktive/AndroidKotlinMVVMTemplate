@@ -96,7 +96,11 @@ dependencies {
     //dager2
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     implementation "com.google.dagger:dagger-android:$rootProject.ext.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion" // if you use the support libraries
     kapt "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
+    kaptTest "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
 }

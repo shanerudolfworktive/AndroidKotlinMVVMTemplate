@@ -1,5 +1,6 @@
 package com.example.mvvmtemplate.viewmodel
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.di.modules.RepoModule

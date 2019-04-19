@@ -1,5 +1,6 @@
 package com.example.mvvmtemplate.repository
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmtemplate.model.SocialFeedModel
@@ -19,6 +20,7 @@ class SocialFeedRepository constructor(
         MutableLiveData<FetchState>()
     }
 
+    @SuppressLint("CheckResult")
     fun fetchSocialFeeds(forced: Boolean = false) {
         if(fetchFeedsState.value == FetchState.LOADING) return
         Observable.fromCallable { dao.first() == null }

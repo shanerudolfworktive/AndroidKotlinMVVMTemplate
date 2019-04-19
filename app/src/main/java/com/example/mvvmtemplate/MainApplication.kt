@@ -6,7 +6,7 @@ import com.example.mvvmtemplate.di.components.AppComponent
 import com.example.mvvmtemplate.di.components.DaggerAppComponent
 import com.example.mvvmtemplate.di.modules.AppModule
 
-class MainApplication : Application(){
+open class MainApplication : Application(){
 
     companion object {
         lateinit var appContext: Context
