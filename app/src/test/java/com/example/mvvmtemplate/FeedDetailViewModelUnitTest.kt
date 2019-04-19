@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.FragmentActivity
 import com.example.mvvmtemplate.data.FakeSocialFeedsDao
-import com.example.mvvmtemplate.di.components.DaggerAppComponent
 import com.example.mvvmtemplate.di.components.DaggerTestAppComponent
 import com.example.mvvmtemplate.di.components.TestAppComponent
 import com.example.mvvmtemplate.di.modules.AppModule
