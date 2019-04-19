@@ -60,15 +60,15 @@ class FeedDetailViewModelUnitTest{
         dao as FakeSocialFeedsDao
 
         val latch = CountDownLatch(2)//one for initialization, one for actual insert
-        (dao as FakeSocialFeedsDao).mutableFeeds.observeForever{
+        (dao as FakeSocialFeedsDao).feeds.observeForever{
+            System.out.println("hit here =" + it.size)
             latch.countDown()
         }
 
         viewModel.insertSocialFeed()
         latch.await()
 
-        assertEquals((dao as FakeSocialFeedsDao).mutableFeeds.value?.size, 1)
-        assertEquals(((dao as FakeSocialFeedsDao).mutableFeeds.value?.get(-100) as SocialFeedModel).user?.description, "testDescription")
-        assertEquals(((dao as FakeSocialFeedsDao).mutableFeeds.value?.get(-100) as SocialFeedModel).user?.name, "testName")
+        assertEquals(dao.first()?.user?.description, "testDescription");
+        assertEquals(dao.first()?.user?.description, "testName");
     }
 }
