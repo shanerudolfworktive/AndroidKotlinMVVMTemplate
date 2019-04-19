@@ -14,7 +14,7 @@ class FakeSocialFeedsDao : SocialFeedsDao{
 
     val feeds: LiveData<List<SocialFeedModel>> = Transformations.switchMap(mutableFeeds){
         val list = MutableLiveData<List<SocialFeedModel>>()
-        list.value = it.values.orEmpty().toList()
+        list.value = it.values.toList()
         list
     }
 

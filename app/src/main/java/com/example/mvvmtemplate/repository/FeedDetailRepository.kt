@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
 class FeedDetailRepository constructor(
-    private val dao: SocialFeedsDao
+    val dao: SocialFeedsDao
     ) {
     fun insertSocialFeed(socialFeedModel: SocialFeedModel) {
         Observable.fromCallable { dao.insertSocialFeed(socialFeedModel) }

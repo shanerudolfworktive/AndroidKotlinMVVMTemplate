@@ -84,10 +84,14 @@ dependencies {
     //viewmodel and livedata
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycleVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
+    testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
 
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "androidx.test:runner:$rootProject.ext.testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+    testImplementation "org.robolectric:robolectric:3.8"
 
     //dager2
     implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
