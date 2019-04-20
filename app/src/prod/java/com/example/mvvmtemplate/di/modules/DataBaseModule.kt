@@ -9,15 +9,22 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DataBaseModule {
-    @Provides
-    @Singleton
-    fun provideSocialFeedsDao(context: Context): SocialFeedsDao {
-        return Room.databaseBuilder(
-            context,
-            SocialFeedsLocalDatabase::class.java,
-            "SocialFeedsLocalDatabase.db")
-            .fallbackToDestructiveMigration()
-            .build().socialFeedsDao()
+abstract class DataBaseModule {
+
+    fun provideSocialFeedsDao(dao: SocialFeedsDao ) = dao
+
+    @Module
+    companion object {
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun provideSocialFeedsDao(context: Context): SocialFeedsDao {
+            return Room.databaseBuilder(
+                context,
+                SocialFeedsLocalDatabase::class.java,
+                "SocialFeedsLocalDatabase.db")
+                .fallbackToDestructiveMigration()
+                .build().socialFeedsDao()
+        }
     }
 }

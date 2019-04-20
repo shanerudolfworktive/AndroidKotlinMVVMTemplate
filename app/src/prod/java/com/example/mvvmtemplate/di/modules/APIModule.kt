@@ -9,16 +9,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class APIModule {
+abstract class APIModule {
 
-    @Provides
-    @Singleton
-    fun provideSocialFeedsAPI() : SocialFeedApiService {
-        val retrofit = Retrofit.Builder()
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://api.massrelevance.com")
-            .build()
-        return retrofit.create(SocialFeedApiService::class.java)
+    fun provideSocialFeedsAPI(service: SocialFeedApiService) = service
+
+    @Module
+    companion object {
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun provideSocialFeedsAPI() : SocialFeedApiService {
+            val retrofit = Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://api.massrelevance.com")
+                .build()
+            return retrofit.create(SocialFeedApiService::class.java)
+        }
     }
+
 }
