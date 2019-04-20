@@ -6,8 +6,11 @@ import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.util.AppExecutors
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FeedDetailRepository constructor(
+@Singleton
+class FeedDetailRepository @Inject constructor(
     private val dao: SocialFeedsDao
     ) {
     fun insertSocialFeed(socialFeedModel: SocialFeedModel) {
