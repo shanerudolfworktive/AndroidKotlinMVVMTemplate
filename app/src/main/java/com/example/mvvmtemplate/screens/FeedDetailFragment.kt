@@ -65,7 +65,7 @@ class FeedDetailFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.saveFeed -> {
-                if (viewModel.name.value!!.isBlank() || viewModel.description.value!!.isBlank()) {
+                if (viewModel.name.value.orEmpty().isBlank() || viewModel.description.value.orEmpty().isBlank()) {
                     Toast.makeText(activity, "please fill name and description", Toast.LENGTH_SHORT).show()
                     return false
                 }

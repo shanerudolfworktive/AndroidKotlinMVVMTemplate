@@ -18,7 +18,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.util.concurrent.CountDownLatch
@@ -42,9 +44,13 @@ class FeedDetailViewModelUnitTest{
 
     @Inject lateinit var dao: SocialFeedsDao
 
+    @Mock
+    lateinit var context: Context
+
     @Before
     fun setUp(){
-        MainApplication.appComponnet = DaggerTestAppComponent.builder().appModule(AppModule(Mockito.mock(Context::class.java))).build()
+        MockitoAnnotations.initMocks(this)
+        MainApplication.appComponnet = DaggerTestAppComponent.builder().appModule(AppModule(context)).build()
         (MainApplication.appComponnet as TestAppComponent).feedDetailViewModelUnitTest(RepoModule()).inject(this)
         viewModel = FeedDetailViewModel()
         dao.deleteAllSocialFeeds()
@@ -52,10 +58,12 @@ class FeedDetailViewModelUnitTest{
 
     @Test
     fun testInserSocialFeed() {
-        viewModel.description.value = "testDescription"
-        viewModel.name.value = "testName"
+        val testDescription = "testDescription"
+        val testName= "testName"
+        viewModel.description.value = testDescription
+        viewModel.name.value = testName
 
-        assertTrue("please use mock variant for testing" ,dao is FakeSocialFeedsDao)
+        assertTrue("please use mock variant for testing", dao is FakeSocialFeedsDao)
 
         val latch = CountDownLatch(2)//one for initialization, one for actual insert
         (dao as FakeSocialFeedsDao).feeds.observeForever{
@@ -65,7 +73,7 @@ class FeedDetailViewModelUnitTest{
         viewModel.insertSocialFeed()
         latch.await()
 
-        assertEquals(dao.first()?.user?.description, "testDescription")
-        assertEquals(dao.first()?.user?.name, "testName")
+        assertEquals(dao.first()?.user?.description, testDescription)
+        assertEquals(dao.first()?.user?.name, testName)
     }
 }

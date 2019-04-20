@@ -1,6 +1,5 @@
 package com.example.mvvmtemplate.viewmodel
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmtemplate.MainApplication
 import com.example.mvvmtemplate.di.modules.RepoModule
@@ -17,8 +16,8 @@ class FeedDetailViewModel : BaseViewModel() {
         MainApplication.appComponnet.feedDetailViewModelComponent(RepoModule()).inject(this)
     }
 
-    var name = MutableLiveData<String>().apply{postValue("")}
-    var description = MutableLiveData<String>().apply { postValue("") }
+    var name = MutableLiveData<String>()
+    var description = MutableLiveData<String>()
 
     fun insertSocialFeed() {
         val userModel = UserModel(name=name.value, description=description.value)
