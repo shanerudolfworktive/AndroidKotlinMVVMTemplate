@@ -34,8 +34,7 @@ import javax.inject.Inject
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE, sdk = [Build.VERSION_CODES.O_MR1])
-class FeedDetailViewModelUnitTest{
-
+class FeedDetailViewModelUnitTest : BaseTest(){
     @Rule
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule() // Force tests to be executed synchronously
@@ -44,13 +43,8 @@ class FeedDetailViewModelUnitTest{
 
     @Inject lateinit var dao: SocialFeedsDao
 
-    @Mock
-    lateinit var context: Context
-
     @Before
     fun setUp(){
-        MockitoAnnotations.initMocks(this)
-        MainApplication.appComponnet = DaggerTestAppComponent.builder().appModule(AppModule(context)).build()
         (MainApplication.appComponnet as TestAppComponent).feedDetailViewModelUnitTest(RepoModule()).inject(this)
         viewModel = FeedDetailViewModel()
         dao.deleteAllSocialFeeds()
