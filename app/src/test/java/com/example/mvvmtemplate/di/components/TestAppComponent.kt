@@ -10,5 +10,5 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class, DataBaseModule::class, APIModule::class))
 @Singleton
 interface TestAppComponent : AppComponent{
-    fun feedDetailViewModelUnitTest(module: RepoModule): FeedDetailViewModelUnitTestComponent
+    fun unitTestComponent(module: RepoModule): UnitTestComponent
 }
