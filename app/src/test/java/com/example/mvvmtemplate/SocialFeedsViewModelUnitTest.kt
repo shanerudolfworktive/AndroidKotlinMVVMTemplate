@@ -40,34 +40,54 @@ class SocialFeedsViewModelUnitTest : BaseTest(){
     }
 
     @Test
-    fun fetchTest() {
+    fun fetchAndDeleteAllTest() {
         Assert.assertTrue("please use mock variant for testing", dao is FakeSocialFeedsDao)
-
-        val latch = CountDownLatch(2)//one for initialization, one for actual insert
-        (dao as FakeSocialFeedsDao).feeds.observeForever{
-            latch.countDown()
-        }
-
         viewModel.fetchSocialFeeds()
-        latch.await()
-
         Assert.assertEquals(dao.getSocialFeeds().value?.size, 3);
+
+        viewModel.deleteAllSocialFeeds()
+        Assert.assertEquals(dao.getSocialFeeds().value?.size, 0);
     }
 
     @Test
-    fun deleteTest() {
+    fun insertAndDeleteTest() {
         Assert.assertTrue("please use mock variant for testing", dao is FakeSocialFeedsDao)
 
-        val latch = CountDownLatch(2)//one for initialization, one for actual insert
-//        dao.insertSocialFeed(SocialFeedModel("a", -1000, UserModel(-1000, "t", "d")))
+        val fakeModel = SocialFeedModel("a", -1000, UserModel(-1000, "t", "d"))
+        val fakeModel2 = SocialFeedModel("a", -1001, UserModel(-1001, "t", "d"))
+        val fakeModel3 = SocialFeedModel("a", -1002, UserModel(-1002, "t", "d"))
+        dao.insertSocialFeed(fakeModel)
+        dao.insertSocialFeed(fakeModel2)
+        dao.insertSocialFeed(fakeModel3)
 
-        viewModel.socialfeedModels.observeForever{
-            latch.countDown()
-        }
+        Assert.assertEquals(dao.first()?.id, -1000L)
+        Assert.assertEquals(dao.getSocialFeeds().value?.size, 3)
 
-        viewModel.deleteAllSocialFeeds()
-        latch.await()
+        viewModel.deleteSocialFeed(fakeModel)
+        Assert.assertEquals(dao.getSocialFeeds().value?.size, 2)
+    }
 
-        Assert.assertNull(dao.first())
+    @Test
+    fun cacheStopTest() {
+        Assert.assertTrue("please use mock variant for testing", dao is FakeSocialFeedsDao)
+
+        val fakeModel = SocialFeedModel("a", -1000, UserModel(-1000, "t", "d"))
+        dao.insertSocialFeed(fakeModel)
+
+        viewModel.fetchSocialFeeds()
+
+        Assert.assertEquals(dao.getSocialFeeds().value?.size, 1)
+    }
+
+    @Test
+    fun forceFetchTest() {
+        Assert.assertTrue("please use mock variant for testing", dao is FakeSocialFeedsDao)
+
+        val fakeModel = SocialFeedModel("a", -1000, UserModel(-1000, "t", "d"))
+        dao.insertSocialFeed(fakeModel)
+
+        viewModel.fetchSocialFeeds(true)
+
+        Assert.assertEquals(dao.getSocialFeeds().value?.size, 4)
     }
 }
