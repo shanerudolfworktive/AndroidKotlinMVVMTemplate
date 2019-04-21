@@ -51,13 +51,7 @@ class FeedDetailViewModelUnitTest : BaseTest(){
 
         assertTrue("please use mock variant for testing", dao is FakeSocialFeedsDao)
 
-        val latch = CountDownLatch(2)//one for initialization, one for actual insert
-        (dao as FakeSocialFeedsDao).feeds.observeForever{
-            latch.countDown()
-        }
-
         viewModel.insertSocialFeed()
-        latch.await()
 
         assertEquals(dao.first()?.user?.description, testDescription)
         assertEquals(dao.first()?.user?.name, testName)

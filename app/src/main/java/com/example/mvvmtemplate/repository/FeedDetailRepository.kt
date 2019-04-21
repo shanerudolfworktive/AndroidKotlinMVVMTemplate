@@ -1,21 +1,22 @@
 package com.example.mvvmtemplate.repository
 
+import com.example.mvvmtemplate.di.modules.SCHEDULER_SINGLE
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.local.SocialFeedsDao
-import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
-import com.example.mvvmtemplate.util.AppExecutors
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Scheduler
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class FeedDetailRepository @Inject constructor(
-    private val dao: SocialFeedsDao
+    private val dao: SocialFeedsDao,
+    @param:Named(SCHEDULER_SINGLE) private val schedulerSingle: Scheduler
     ) {
     fun insertSocialFeed(socialFeedModel: SocialFeedModel) {
         Observable.fromCallable { dao.insertSocialFeed(socialFeedModel) }
-            .subscribeOn(Schedulers.single())
+            .subscribeOn(schedulerSingle)
             .subscribe()
     }
 }
