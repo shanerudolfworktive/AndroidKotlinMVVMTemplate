@@ -1,19 +1,17 @@
 package com.example.mvvmtemplate.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.example.mvvmtemplate.MainApplication
-import com.example.mvvmtemplate.di.modules.RepoModule
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.UserModel
 import com.example.mvvmtemplate.repository.FeedDetailRepository
 import javax.inject.Inject
 
-class FeedDetailViewModel : BaseViewModel() {
+class FeedDetailViewModel @Inject constructor(private val repository: FeedDetailRepository): BaseViewModel() {
 
-    @Inject lateinit var repository: FeedDetailRepository
+//    @Inject lateinit var repository: FeedDetailRepository
 
     init {
-        MainApplication.appComponnet.feedDetailViewModelComponent(RepoModule()).inject(this)
+//        MainApplication.appComponnet.feedDetailViewModelComponent(RepoModule()).inject(this)
     }
 
     var name = MutableLiveData<String>()

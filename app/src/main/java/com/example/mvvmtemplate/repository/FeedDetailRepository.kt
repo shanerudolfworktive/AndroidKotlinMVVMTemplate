@@ -14,8 +14,8 @@ class FeedDetailRepository @Inject constructor(
     private val dao: SocialFeedsDao,
     @param:Named(SCHEDULER_SINGLE) private val schedulerSingle: Scheduler
     ) {
-    fun insertSocialFeed(socialFeedModel: SocialFeedModel) {
-        Observable.fromCallable { dao.insertSocialFeed(socialFeedModel) }
+    fun insertSocialFeed(socialFeedModel: SocialFeedModel?) {
+        Observable.fromCallable { dao.insertSocialFeed(socialFeedModel!!) }
             .subscribeOn(schedulerSingle)
             .subscribe()
     }

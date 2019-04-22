@@ -14,25 +14,18 @@ import com.example.mvvmtemplate.R
 import com.example.mvvmtemplate.databinding.FragmentFeedDetailBinding
 import com.example.mvvmtemplate.util.ViewUtils
 import com.example.mvvmtemplate.viewmodel.FeedDetailViewModel
+import com.example.mvvmtemplate.viewmodel.SocialFeedsViewModel
 import kotlinx.android.synthetic.main.fragment_feed_detail.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
 class FeedDetailFragment : BaseFragment() {
 
     lateinit var viewModel: FeedDetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(FeedDetailViewModel::class.java)
+//        viewModel = ViewModelProviders.of(activity!!).get(FeedDetailViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(FeedDetailViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
