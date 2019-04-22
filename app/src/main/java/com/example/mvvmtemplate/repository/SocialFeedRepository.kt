@@ -54,7 +54,6 @@ class SocialFeedRepository @Inject constructor(
                 fetchFeedsState.postValue(FetchState.FAIL)
                 it.printStackTrace()
             })
-
     }
 
     fun deleteSocialFeed(socialFeedModel: SocialFeedModel) {

@@ -27,6 +27,7 @@ class SocialFeedsViewModelUnitTest : BaseTest(){
 
     @Mock
     lateinit var repo: SocialFeedRepository
+
     @Before
     fun setUp(){
         viewModel = SocialFeedsViewModel(repo)
