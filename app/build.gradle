@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.navVersion"
+    debugImplementation "androidx.fragment:fragment-testing:$rootProject.ext.testFragmentVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.navVersion"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -88,6 +89,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
 
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "com.android.support.test:rules:1.0.2"
     androidTestImplementation "androidx.test:runner:$rootProject.ext.testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
