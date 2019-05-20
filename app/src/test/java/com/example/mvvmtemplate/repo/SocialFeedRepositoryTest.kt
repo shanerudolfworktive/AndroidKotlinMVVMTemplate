@@ -2,19 +2,22 @@ package com.example.mvvmtemplate.repo
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import com.example.mvvmtemplate.BaseTest
 import com.example.mvvmtemplate.model.SocialFeedModel
 import com.example.mvvmtemplate.model.UserModel
 import com.example.mvvmtemplate.model.local.SocialFeedsDao
+import com.example.mvvmtemplate.model.local.SocialFeedsLocalDatabase
 import com.example.mvvmtemplate.model.remote.apiService.SocialFeedApiService
 import com.example.mvvmtemplate.repository.FetchState
 import com.example.mvvmtemplate.repository.SocialFeedRepository
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Observable
-import org.junit.Assert.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import org.hamcrest.core.IsEqual.equalTo
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +38,6 @@ class SocialFeedRepositoryTest : BaseTest(){
     @Mock
     lateinit var repo: SocialFeedRepository
 
-    @Mock
     lateinit var dao: SocialFeedsDao
 
     @Mock
@@ -43,28 +45,50 @@ class SocialFeedRepositoryTest : BaseTest(){
 
     @Before
     fun setUp(){
+        dao = Room.inMemoryDatabaseBuilder(
+            context,
+            SocialFeedsLocalDatabase::class.java)
+            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build().socialFeedsDao()
         repo = SocialFeedRepository(dao, api, AndroidSchedulers.mainThread(), AndroidSchedulers.mainThread(), AndroidSchedulers.mainThread())
     }
 
     @Test
     fun testFetchWithData() {
         val fakeSocialFeed = SocialFeedModel("fake_created_at", -1, UserModel(-1, "fake_name", "fake_description"))
-        `when`(dao.first()).thenReturn(fakeSocialFeed)
+        //set up database
+        dao.insertSocialFeed(fakeSocialFeed)
+        assertThat(dao.first(), equalTo(fakeSocialFeed))
+
+        //setup api
+        `when`(api.fetchFeeds()).thenReturn(Observable.just(listOf(fakeSocialFeed)))
+
+        //calling fetch social feeds
         repo.fetchSocialFeeds()
+
+        //when we have local cached data, we should not actually calling api
         verify(api, times(0)).fetchFeeds()
+        assertNull(repo.fetchFeedsState.value)
+
+        //force calling the network to invalidate data
+        repo.fetchSocialFeeds(true)
+        verify(api, times(1)).fetchFeeds()
+        assertThat(repo.fetchFeedsState.value, equalTo(FetchState.SUCCESS))
+//        assertThat(dao.getSocialFeeds().value?.size, equalTo(1))
+//        assertThat(repo.socialFeedModels.value?.size, equalTo(1))
     }
 
     @Test
     fun testFetchWithoutData() {
         val fakeSocialFeed = SocialFeedModel("fake_created_at", -1, UserModel(-1, "fake_name", "fake_description"))
         val lists = listOf(fakeSocialFeed)
-        `when`(dao.getSocialFeeds()).thenReturn(MutableLiveData<List<SocialFeedModel>>())
-        `when`(dao.first()).thenReturn(null)
         `when`(api.fetchFeeds()).thenReturn(Observable.just(lists))
         repo.fetchSocialFeeds()
         verify(api, times(1)).fetchFeeds()
-        verify(dao, times(1)).insertSocialFeeds(lists)
-        assertEquals(repo.fetchFeedsState.value, FetchState.SUCCESS)
+        assertThat(dao.first(), equalTo(fakeSocialFeed))
+        assertThat(repo.fetchFeedsState.value, equalTo(FetchState.SUCCESS))
+//        assertThat(repo.socialFeedModels.value?.size, equalTo(1))
     }
 
 }
