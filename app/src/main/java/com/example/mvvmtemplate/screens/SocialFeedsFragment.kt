@@ -36,7 +36,7 @@ class SocialFeedsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(socialFeedsToolbar as Toolbar?)
+        (activity as? AppCompatActivity)?.setSupportActionBar(socialFeedsToolbar as Toolbar?)
         setHasOptionsMenu(true)
 //        socialFeedsToolbar.apply {
 //            inflateMenu(R.menu.social_feeds_menu)
@@ -97,5 +97,4 @@ class SocialFeedsFragment : BaseFragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }
